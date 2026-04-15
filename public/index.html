@@ -1428,8 +1428,9 @@ function shareX(){
   window.open(`https://twitter.com/intent/tweet?text=${txt}&url=${url}`,'_blank');
 }
 function shareLine(){
-  const txt=encodeURIComponent(getShareText()+'\nhttps://baseball-umpire-quiz.vercel.app/');
-  window.open('https://social-plugins.line.me/lineit/share?url='+txt,'_blank');
+  const url=encodeURIComponent('https://baseball-umpire-quiz.vercel.app/');
+  const txt=encodeURIComponent(getShareText());
+  window.open('https://line.me/R/msg/text/?'+txt+'%0A'+url,'_blank');
 }
 function shareCopy(){
   const txt=getShareText()+'\nhttps://baseball-umpire-quiz.vercel.app/';
