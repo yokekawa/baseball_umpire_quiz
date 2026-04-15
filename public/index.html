@@ -10,11 +10,12 @@
 <meta property="og:title" content="少年野球 審判メカニクスクイズ｜4人制審判の動きを学ぶ無料アプリ">
 <meta property="og:description" content="少年野球のお父さん審判向け学習アプリ。球審・一塁審・二塁審・三塁審のメカニクスをクイズ形式で練習できます。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://baseball-umpire-quiz.vercel.app/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="少年野球 審判メカニクスクイズ">
 <meta name="twitter:description" content="お父さん審判向け！4人制審判の動きをクイズで学べる無料アプリ">
 <!-- デプロイ後に実際のURLに変更してください -->
-<link rel="canonical" href="https://your-domain.com/baseball_umpire_quiz.html">
+<link rel="canonical" href="https://baseball-umpire-quiz.vercel.app/">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#1a1918;color:#f0efe8}
@@ -241,6 +242,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
     "@type": "Audience",
     "audienceType": "少年野球 お父さん審判"
   },
+  "url": "https://baseball-umpire-quiz.vercel.app/",
   "keywords": "少年野球,審判,メカニクス,お父さん審判,4人制,球審,塁審,ポジショニング,クイズ"
 }
 </script>
@@ -1421,16 +1423,16 @@ function getShareText(){
 #少年野球 #審判 #メカニクス`;
 }
 function shareX(){
-  const url=encodeURIComponent(location.href);
+  const url=encodeURIComponent("https://baseball-umpire-quiz.vercel.app/");
   const txt=encodeURIComponent(getShareText());
   window.open(`https://twitter.com/intent/tweet?text=${txt}&url=${url}`,'_blank');
 }
 function shareLine(){
-  const txt=encodeURIComponent(getShareText()+' '+location.href);
+  const txt=encodeURIComponent(getShareText()+'\nhttps://baseball-umpire-quiz.vercel.app/');
   window.open('https://social-plugins.line.me/lineit/share?url='+txt,'_blank');
 }
 function shareCopy(){
-  const txt=getShareText()+' '+location.href;
+  const txt=getShareText()+'\nhttps://baseball-umpire-quiz.vercel.app/';
   navigator.clipboard.writeText(txt).then(()=>alert('コピーしました！')).catch(()=>{
     const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('コピーしました！');
   });
