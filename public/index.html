@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>少年野球 審判メカニクスクイズ｜4人制審判の動きを学ぶ無料アプリ</title>
+<meta name="description" content="少年野球のお父さん審判向け学習アプリ。球審・一塁審・二塁審・三塁審のメカニクス（動き・ポジショニング）をクイズ形式で練習できます。4人制審判の基本をゲーム感覚で習得しましょう。">
+<meta name="keywords" content="少年野球,審判,メカニクス,お父さん審判,4人制,球審,塁審,ポジショニング,クイズ,練習,勉強">
+<meta name="author" content="少年野球審判メカニクスクイズ">
+<meta property="og:title" content="少年野球 審判メカニクスクイズ｜4人制審判の動きを学ぶ無料アプリ">
+<meta property="og:description" content="少年野球のお父さん審判向け学習アプリ。球審・一塁審・二塁審・三塁審のメカニクスをクイズ形式で練習できます。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="少年野球 審判メカニクスクイズ">
+<meta name="twitter:description" content="お父さん審判向け！4人制審判の動きをクイズで学べる無料アプリ">
+<!-- デプロイ後に実際のURLに変更してください -->
+<link rel="canonical" href="https://your-domain.com/baseball_umpire_quiz.html">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#1a1918;color:#f0efe8}
+.app{height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918}
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden}
+.screen.active{display:flex}
+
+/* SELECT SCREEN */
+.sel-header{padding:16px 16px 8px;flex-shrink:0}
+.sel-title{font-size:20px;font-weight:700;color:#f0efe8;margin-bottom:2px}
+.sel-sub{font-size:12px;color:#888780}
+.sel-body{flex:1;overflow-y:auto;padding:8px 16px 16px}
+.pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.pos-opt{padding:16px 12px;border:1px solid #3a3836;border-radius:12px;background:#2a2826;color:#f0efe8;font-size:14px;cursor:pointer;text-align:center;line-height:1.6;transition:all 0.12s}
+.pos-opt:hover,.pos-opt:active{background:#185FA5;border-color:#185FA5}
+.pos-opt .pos-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.pos-opt .pos-desc{font-size:11px;color:#888780}
+.pos-opt:hover .pos-desc,.pos-opt:active .pos-desc{color:#B5D4F4}
+.source-note{font-size:11px;color:#5f5e5a;text-align:center;padding:8px;border-top:1px solid #2a2826;flex-shrink:0}
+
+/* READY SCREEN */
+.rdy-header{padding:12px 16px 6px;flex-shrink:0;display:flex;align-items:center;gap:10px}
+.rdy-pos-badge{font-size:13px;font-weight:700;background:#185FA5;color:#fff;padding:4px 12px;border-radius:20px}
+.rdy-sit{flex:1;font-size:12px;color:#888780}
+.score-chips{display:flex;gap:6px;padding:0 16px 8px;flex-shrink:0}
+.chip{flex:1;background:#2a2826;border-radius:8px;padding:6px 4px;text-align:center}
+.chip-l{font-size:10px;color:#888780;margin-bottom:1px}
+.chip-v{font-size:17px;font-weight:700}
+.chip-v.ok{color:#97C459}.chip-v.ng{color:#E24B4A}.chip-v.tot{color:#f0efe8}
+.field-area{flex-shrink:0;padding:0 16px 8px}
+.field-wrap{background:#1a3012;border-radius:10px;overflow:hidden}
+.info-row{display:flex;gap:8px;padding:0 16px 8px;flex-shrink:0}
+.info-card{flex:1;background:#2a2826;border-radius:8px;padding:8px 10px}
+.info-label{font-size:10px;color:#888780;margin-bottom:2px}
+.info-val{font-size:14px;font-weight:700;color:#f0efe8}
+.rdy-btns{padding:0 16px 12px;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+.btn{width:100%;padding:13px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s}
+.btn:active{transform:scale(0.97)}
+.btn-play{background:#185FA5;color:#fff}
+.btn-play:hover{background:#0C447C}
+.btn-change{background:#2a2826;color:#888780;font-size:13px;padding:9px}
+
+/* QUESTION SCREEN */
+.q-header{padding:10px 16px 4px;flex-shrink:0;display:flex;align-items:center;gap:8px}
+.q-pos-badge{font-size:12px;font-weight:700;background:#185FA5;color:#fff;padding:3px 10px;border-radius:20px;flex-shrink:0}
+.q-sit-lbl{font-size:11px;color:#888780;flex:1}
+.timer-bar{height:4px;background:#2a2826;flex-shrink:0;margin:0 16px 4px}
+.timer-fill{height:100%;border-radius:2px;transition:width 0.1s linear}
+.q-field-area{flex-shrink:0;padding:0 16px 4px}
+.ball-row{flex-shrink:0;padding:0 16px 4px;display:flex;align-items:center;gap:8px}
+.ball-badge{font-size:10px;font-weight:700;background:#791F1F;color:#FCEBEB;padding:2px 8px;border-radius:20px;flex-shrink:0}
+.ball-txt{font-size:14px;font-weight:700;color:#f0efe8}
+.step-label{flex-shrink:0;font-size:10px;color:#888780;font-weight:700;letter-spacing:0.5px;padding:2px 16px 4px;text-transform:uppercase}
+.opts-area{flex:1;overflow-y:auto;padding:0 16px 8px;display:flex;flex-direction:column;gap:5px}
+.opt-btn{width:100%;padding:10px 12px;border-radius:8px;background:#2a2826;border:1px solid #3a3836;color:#f0efe8;font-size:13px;cursor:pointer;text-align:left;font-family:inherit;transition:all 0.12s;line-height:1.4}
+.opt-btn:hover{background:#33302e;border-color:#5f5e5a}
+.opt-btn:active{transform:scale(0.98)}
+.opt-btn.correct{background:#1a3012;border-color:#97C459;color:#97C459;pointer-events:none;font-weight:700}
+.opt-btn.wrong{background:#3d0f0f;border-color:#E24B4A;color:#E24B4A;pointer-events:none}
+.opt-btn.off{opacity:0.35;pointer-events:none}
+.rev-opt{font-size:12px;padding:7px 10px;border-radius:7px;line-height:1.4;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.rev-opt-left{display:flex;align-items:flex-start;gap:6px;flex:1;min-width:0}
+.rev-opt-num{flex-shrink:0;color:inherit;font-weight:700;min-width:16px}
+.rev-opt-txt{flex:1;min-width:0;word-break:break-all}
+.rev-opt-tag{flex-shrink:0;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;margin-left:6px;white-space:nowrap}
+.rev-opt.rev-correct{background:#1a3012;color:#97C459}
+.rev-opt.rev-correct .rev-opt-tag{background:#97C459;color:#1a1918}
+.rev-opt.rev-wrong{background:#3d0f0f;color:#E24B4A}
+.rev-opt.rev-wrong .rev-opt-tag{background:#E24B4A;color:#fff}
+.rev-opt.rev-normal{background:#2a2826;color:#888780}
+
+/* RESULT SCREEN */
+.res-header{padding:10px 16px 4px;flex-shrink:0;display:flex;align-items:center;gap:8px}
+.res-icon{font-size:22px;font-weight:900;flex-shrink:0}
+.res-title{font-size:16px;font-weight:700;flex:1}
+.res-det{font-size:12px;color:#888780}
+.res-field-area{flex-shrink:0;padding:0 16px 4px}
+.res-body{flex:1;overflow-y:auto;padding:0 16px 8px;display:flex;flex-direction:column;gap:8px}
+.ans-card{background:#2a2826;border-radius:8px;padding:10px 12px}
+.ans-lbl{font-size:10px;color:#888780;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.ans-val{font-size:13px;color:#f0efe8;line-height:1.5}
+.adv-card{background:#0C447C;border-radius:8px;padding:10px 12px}
+.adv-lbl{font-size:10px;color:#85B7EB;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.adv-val{font-size:12px;color:#E6F1FB;line-height:1.6}
+.res-btns{padding:0 16px 12px;flex-shrink:0;display:flex;flex-direction:column;gap:6px}
+.legend-row{flex-shrink:0;display:flex;gap:10px;padding:0 16px 4px;font-size:10px;color:#5f5e5a;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:3px}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.leg-line{width:14px;height:2px;flex-shrink:0}
+/* 打球アニメーション */
+.ball-alert{flex-shrink:0;padding:6px 16px 4px;display:flex;align-items:center;justify-content:center;gap:8px}
+.ball-alert-badge{font-size:13px;font-weight:900;background:#E24B4A;color:#fff;padding:4px 14px;border-radius:20px;animation:ballPulse 0.5s ease-in-out infinite alternate}
+.ball-alert-txt{font-size:15px;font-weight:700;color:#f0efe8}
+@keyframes ballPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.12);opacity:0.85}}
+.choices-reveal{animation:fadeInUp 0.35s ease-out}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sel-section-lbl{font-size:11px;color:#888780;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:2px 0 6px}
+/* グラウンド+ひし形ポジション選択 */
+.pos-field-wrap{position:relative;width:100%;margin-bottom:10px;border-radius:12px;overflow:hidden;background:#1a1918;border:1px solid #2a2826}
+.pos-field-wrap svg{display:block;width:100%}
+.pos-btn-overlay{position:absolute;inset:0;pointer-events:none}
+.pos-btn{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;
+  background:#1a2a3a;border:2px solid #378ADD;border-radius:12px;
+  color:#B5D4F4;font-size:12px;font-weight:800;text-align:center;
+  padding:7px 10px;min-width:58px;line-height:1.2;
+  transition:all 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.5)}
+.pos-btn:hover{background:#185FA5;border-color:#5BA8E8;color:#fff;transform:translate(-50%,-50%) scale(1.07)}
+.pos-btn.selected{background:#185FA5;border-color:#fff;color:#fff;box-shadow:0 0 0 3px rgba(24,95,165,0.5)}
+.pos-btn .pos-icon{font-size:16px;display:block;margin-bottom:2px}
+.pos-btn .pos-label{font-size:11px;display:block}
+.qcount-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.qcount-opt{padding:12px 8px;border:1px solid #3a3836;border-radius:10px;background:#2a2826;color:#888780;font-size:15px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.12s}
+.qcount-opt:hover{background:#33302e;border-color:#5f5e5a;color:#f0efe8}
+.qcount-opt.selected{background:#185FA5;border-color:#185FA5;color:#fff}
+.pos-opt.selected{background:#185FA5;border-color:#185FA5;color:#fff}
+.pos-opt.selected .pos-desc{color:#B5D4F4}
+.btn-start-main{width:100%;padding:15px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s;background:#185FA5;color:#fff;margin-top:2px}
+.btn-start-main:disabled{background:#2a2826;color:#5f5e5a;cursor:not-allowed}
+.btn-start-main:not(:disabled):hover{background:#0C447C}
+.btn-start-main:not(:disabled):active{transform:scale(0.97)}
+
+/* SESSION END SCREEN */
+.end-screen{padding:20px 16px;display:flex;flex-direction:column;gap:12px;flex:1;overflow-y:auto}
+.end-result-card{background:#2a2826;border-radius:14px;padding:20px;text-align:center}
+.end-emoji{font-size:48px;margin-bottom:8px}
+.end-title{font-size:22px;font-weight:800;color:#f0efe8;margin-bottom:4px}
+.end-score{font-size:16px;color:#97C459;font-weight:700;margin-bottom:4px}
+.end-pos{font-size:12px;color:#888780}
+.share-section{background:#2a2826;border-radius:14px;padding:14px}
+.share-lbl{font-size:11px;font-weight:700;color:#888780;letter-spacing:0.5px;margin-bottom:8px}
+.share-row{display:flex;gap:8px}
+.btn-share{flex:1;padding:11px 6px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s}
+.btn-share-x{background:#000;color:#fff}
+.btn-share-line{background:#06C755;color:#fff}
+.btn-share-copy{background:#3a3836;color:#f0efe8}
+.end-btns{display:flex;gap:8px}
+.end-btns .btn{flex:1}
+/* HISTORY SCREEN */
+.hist-header{padding:14px 16px 10px;flex-shrink:0;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2a2826}
+.hist-title{font-size:18px;font-weight:700;flex:1}
+.hist-back{background:none;border:none;color:#888780;font-size:14px;cursor:pointer;padding:4px 8px;font-family:inherit}
+.hist-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.hist-card{background:#2a2826;border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.hist-pos{font-size:11px;font-weight:700;background:#185FA5;color:#fff;padding:2px 8px;border-radius:10px;flex-shrink:0}
+.hist-info{flex:1}
+.hist-score{font-size:18px;font-weight:800;color:#f0efe8}
+.hist-score span{font-size:12px;font-weight:400;color:#888780;margin-left:4px}
+.hist-date{font-size:11px;color:#5f5e5a;margin-top:2px}
+.hist-pct{font-size:20px;font-weight:900}
+.hist-empty{color:#888780;font-size:14px;text-align:center;padding:40px 0}
+.hist-clear-btn{background:none;border:1px solid #3a3836;border-radius:8px;color:#888780;font-size:12px;padding:6px 14px;cursor:pointer;font-family:inherit}
+/* 成績履歴・セッション終了・シェア */
+.end-screen{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.end-result-card{background:#2a2826;border-radius:12px;padding:16px;text-align:center}
+.end-result-icon{font-size:48px;font-weight:900;line-height:1}
+.end-result-title{font-size:18px;font-weight:700;margin:6px 0 4px}
+.end-result-score{font-size:28px;font-weight:900;margin-bottom:4px}
+.end-result-sub{font-size:12px;color:#888780}
+.share-row{display:flex;gap:8px;margin-top:4px}
+.btn-share{flex:1;padding:11px 6px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s}
+.btn-share-x{background:#000;color:#fff}
+.btn-share-line{background:#06C755;color:#fff}
+.btn-share-copy{background:#2a2826;color:#f0efe8;border:1px solid #3a3836}
+.end-btns{display:flex;flex-direction:column;gap:8px;flex-shrink:0;padding:0 16px 16px}
+/* 履歴画面 */
+.hist-row{background:#2a2826;border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hist-pos{font-size:11px;font-weight:700;background:#185FA5;color:#fff;padding:2px 8px;border-radius:10px;flex-shrink:0;min-width:48px;text-align:center}
+.hist-info{flex:1}
+.hist-score{font-size:18px;font-weight:900}
+.hist-score span{font-size:11px;font-weight:400;color:#888780}
+.hist-meta{font-size:10px;color:#5f5e5a;margin-top:1px}
+.hist-pct{font-size:16px;font-weight:700;flex-shrink:0}
+.hist-empty{color:#888780;font-size:13px;text-align:center;padding:30px 0}
+.hist-clear{font-size:11px;color:#E24B4A;cursor:pointer;padding:4px 0;text-align:right;margin-bottom:8px}
+/* HOW-TO SCREEN */
+.howto-header{padding:14px 16px 8px;flex-shrink:0;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2a2826}
+.howto-title{font-size:18px;font-weight:700;flex:1}
+.howto-back{background:none;border:none;color:#888780;font-size:14px;cursor:pointer;padding:4px 8px;font-family:inherit}
+.howto-body{flex:1;overflow-y:auto;padding:16px}
+.howto-step{margin-bottom:24px}
+.howto-step-num{display:inline-block;background:#185FA5;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:8px}
+.howto-step-title{font-size:15px;font-weight:700;color:#f0efe8;margin-bottom:6px}
+.howto-step-desc{font-size:13px;color:#a0a09a;line-height:1.7;margin-bottom:10px}
+.howto-mock{background:#2a2826;border-radius:10px;padding:12px;margin-bottom:6px}
+.howto-mock-label{font-size:10px;color:#5f5e5a;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px}
+.mock-pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.mock-pos-btn{padding:8px;border:1px solid #3a3836;border-radius:8px;background:#1a1918;color:#f0efe8;font-size:12px;font-weight:700;text-align:center}
+.mock-pos-btn.active{background:#185FA5;border-color:#185FA5}
+.mock-qcount{display:flex;gap:6px;margin-bottom:8px}
+.mock-qbtn{flex:1;padding:8px;border:1px solid #3a3836;border-radius:8px;background:#1a1918;color:#888780;font-size:12px;font-weight:700;text-align:center}
+.mock-qbtn.active{background:#185FA5;border-color:#185FA5;color:#fff}
+.mock-start{background:#185FA5;color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700;text-align:center}
+.mock-field{background:#1e3d0f;border-radius:8px;height:170px;position:relative;overflow:hidden;margin-bottom:6px}
+.mock-arrow-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.mock-badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:700}
+.mock-ball-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.mock-opts{display:flex;flex-direction:column;gap:4px}
+.mock-opt{padding:8px 10px;border-radius:6px;background:#1a1918;border:1px solid #3a3836;font-size:12px;color:#f0efe8}
+.mock-opt.correct{background:#1a3012;border-color:#97C459;color:#97C459}
+.mock-opt.wrong{background:#3d0f0f;border-color:#E24B4A;color:#E24B4A}
+.mock-chip-row{display:flex;gap:6px;margin-bottom:8px}
+.mock-chip{flex:1;background:#1a1918;border-radius:6px;padding:5px;text-align:center}
+.mock-chip-l{font-size:9px;color:#888780}
+.mock-chip-v{font-size:14px;font-weight:700}
+.mock-result{background:#1a3012;border:1px solid #97C459;border-radius:8px;padding:10px;margin-bottom:6px}
+.mock-adv{background:#0C447C;border-radius:8px;padding:10px}
+.howto-tip{background:#2a2826;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:#a0a09a;line-height:1.6;margin-top:8px}
+.howto-source{font-size:11px;color:#5f5e5a;text-align:center;padding:8px 0 4px;border-top:1px solid #2a2826;margin-top:8px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "少年野球 審判メカニクスクイズ",
+  "description": "少年野球のお父さん審判向け学習アプリ。球審・一塁審・二塁審・三塁審のメカニクス（動き・ポジショニング）をクイズ形式で練習できます。4人制審判の基本をゲーム感覚で習得。",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "少年野球 お父さん審判"
+  },
+  "keywords": "少年野球,審判,メカニクス,お父さん審判,4人制,球審,塁審,ポジショニング,クイズ"
+}
+</script>
+</head>
+<body>
+<div class="app">
+<!-- SEO用コンテンツ（画面外） -->
+<div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap" aria-hidden="true">
+  <h1>少年野球 審判メカニクスクイズ｜お父さん審判向け無料学習アプリ</h1>
+  <p>少年野球の4人制審判（球審・一塁審・二塁審・三塁審）のメカニクス（動き・ポジショニング）をクイズ形式で学べる無料アプリです。打球の種類（フライ・ゴロ）や走者状況に応じた審判の動きを、グラウンド図を見ながら直感的に練習できます。お父さん審判の勉強に最適です。</p>
+  <h2>学べる内容</h2>
+  <ul>
+    <li>球審の動き：内野ゴロ・外野フライへの対応、45フィートまでの走り込み</li>
+    <li>一塁審の動き：ファウルゾーン外でのポジショニング、内野内への移動</li>
+    <li>二塁審の動き：無走者時の外側ポジション、走者ありの内野内ポジション</li>
+    <li>三塁審の動き：タッグアップ確認位置、外野フライへの対応</li>
+    <li>走者状況別のメカニクス：無走者・走者一塁・走者二塁・走者三塁・各種複数走者</li>
+    <li>アウトカウント別の違い：0アウト・1アウト・2アウトでの動きの変化</li>
+  </ul>
+</div>
+
+<!-- 選択画面 -->
+<div id="s-select" class="screen active">
+  <div class="sel-header">
+    <div class="sel-title">審判メカニクスクイズ</div>
+  </div>
+  <div class="sel-body">
+    <div class="sel-section-lbl">ポジション選択</div>
+    <div class="pos-field-wrap">
+      <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="220" fill="#111c0e"/>
+  <path d="M48,68 C130,-20 170,-20 252,68 L150,170 Z" fill="#1a3410" stroke="none"/>
+  <path d="M48,68 C130,-20 170,-20 252,68" fill="none" stroke="#2d6e1a" stroke-width="1.5"/>
+  <line x1="150" y1="170" x2="48" y2="68" stroke="#2d6e1a" stroke-width="1"/>
+  <line x1="150" y1="170" x2="252" y2="68" stroke="#2d6e1a" stroke-width="1"/>
+  <polygon points="150,63 209,122 161,181 139,181 91,122" fill="#2e1f07" stroke="none" fill-opacity="0.9"/>
+  <polygon points="150,74 198,122 150,170 102,122" fill="#1a3410" stroke="none"/>
+  <line x1="150" y1="170" x2="198" y2="122" stroke="#6b4a10" stroke-width="1"/>
+  <line x1="198" y1="122" x2="150" y2="74" stroke="#6b4a10" stroke-width="1"/>
+  <line x1="150" y1="74" x2="102" y2="122" stroke="#6b4a10" stroke-width="1"/>
+  <line x1="102" y1="122" x2="150" y2="170" stroke="#6b4a10" stroke-width="1"/>
+  <circle cx="150" cy="122" r="3" fill="#3d2508" stroke="#6b4a10" stroke-width="0.8"/>
+  <polygon points="150,164 155,170 150,175 145,170" fill="#3d2508" stroke="#6b4a10" stroke-width="1"/>
+  <rect x="193" y="117" width="10" height="10" rx="1" fill="#3d2508" stroke="#6b4a10" stroke-width="1"/>
+  <rect x="145" y="69" width="10" height="10" rx="1" fill="#3d2508" stroke="#6b4a10" stroke-width="1"/>
+  <rect x="97" y="117" width="10" height="10" rx="1" fill="#3d2508" stroke="#6b4a10" stroke-width="1"/>
+</svg>
+      <div class="pos-btn-overlay">
+        <div class="pos-btn" id="popt-球審"   onclick="setPos('球審')"   style="left:50%;top:82.1%"><span class="pos-icon">⬛</span><span class="pos-label">球審</span></div>
+        <div class="pos-btn" id="popt-一塁審" onclick="setPos('一塁審')" style="left:73.7%;top:50%"><span class="pos-icon">▶</span><span class="pos-label">一塁審</span></div>
+        <div class="pos-btn" id="popt-二塁審" onclick="setPos('二塁審')" style="left:50%;top:24.9%"><span class="pos-icon">▲</span><span class="pos-label">二塁審</span></div>
+        <div class="pos-btn" id="popt-三塁審" onclick="setPos('三塁審')" style="left:26.3%;top:50%"><span class="pos-icon">◀</span><span class="pos-label">三塁審</span></div>
+      </div>
+    </div>
+    <div class="sel-section-lbl" style="margin-top:4px">問題数</div>
+    <div class="qcount-grid">
+      <div class="qcount-opt" id="qopt-5" onclick="setQcount(5)">5問</div>
+      <div class="qcount-opt" id="qopt-10" onclick="setQcount(10)">10問</div>
+      <div class="qcount-opt" id="qopt-0" onclick="setQcount(0)">全問</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:2px">
+      <button class="btn-start-main" id="btn-start-main" onclick="startSession()" disabled style="flex:1;margin-top:0">スタート ▶</button>
+      <button onclick="show('s-howto')" style="flex:none;padding:13px 16px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:#185FA5;color:#fff;transition:all 0.12s" onmouseenter="this.style.background='#0C447C'" onmouseleave="this.style.background='#185FA5'">使い方</button>
+      <button onclick="openHist()" style="flex:none;padding:13px 14px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:#2a6444;color:#fff;transition:all 0.12s">履歴</button>
+    </div>
+  </div>
+  
+</div>
+
+<!-- 使い方画面 -->
+<div id="s-howto" class="screen">
+  <div class="howto-header">
+    <div class="howto-title">📋 使い方</div>
+    <button class="howto-back" onclick="show('s-select')">✕ 閉じる</button>
+  </div>
+  <div class="howto-body">
+
+    <!-- STEP 1 -->
+    <div class="howto-step">
+      <div class="howto-step-num">STEP 1</div>
+      <div class="howto-step-title">ポジションと問題数を選ぶ</div>
+      <div class="howto-step-desc">自分が担当するポジションを選び、練習したい問題数を選んでください。両方選ぶと「スタート」ボタンが押せるようになります。</div>
+      <div class="howto-mock">
+        <div class="howto-mock-label">画面イメージ</div>
+        <div class="mock-pos-grid">
+          <div class="mock-pos-btn">⬛ 球審</div>
+          <div class="mock-pos-btn active">▶ 一塁審</div>
+          <div class="mock-pos-btn">▲ 二塁審</div>
+          <div class="mock-pos-btn">◀ 三塁審</div>
+        </div>
+        <div class="mock-qcount">
+          <div class="mock-qbtn active">5問</div>
+          <div class="mock-qbtn">10問</div>
+          <div class="mock-qbtn">全問</div>
+        </div>
+        <div class="mock-start">スタート ▶</div>
+      </div>
+      <div class="howto-tip">💡 問題はランダムに出題されます。全問を選ぶとそのポジションの全問題（13〜19問）が出ます。</div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="howto-step">
+      <div class="howto-step-num">STEP 2</div>
+      <div class="howto-step-title">問題の状況を確認する</div>
+      <div class="howto-step-desc">アウトカウントと走者の状況を確認したら、「プレイ！」を押す前に少し考えてみましょう。<br><br>「打球がレフトに飛んだら？」「内野ゴロが来たら？」——審判は打球が来る前に<b>次に起こりうるプレイを想定</b>しておくことが大切です。<br><br>例：<b>一塁審</b>・走者一塁・0アウト</div>
+      <div class="howto-mock">
+        <div class="howto-mock-label">準備画面 — 審判の初期位置と状況</div>
+        <div class="mock-chip-row">
+          <div class="mock-chip"><div class="mock-chip-l">正解</div><div class="mock-chip-v" style="color:#97C459">2</div></div>
+          <div class="mock-chip"><div class="mock-chip-l">不正解</div><div class="mock-chip-v" style="color:#E24B4A">1</div></div>
+          <div class="mock-chip"><div class="mock-chip-l">進捗</div><div class="mock-chip-v">3/5</div></div>
+        </div>
+        <div class="mock-field">
+          <svg width="100%" viewBox="0 40 300 180" style="display:block">
+<rect x="0" y="40" width="300" height="180" fill="#1e3d0f"/>
+<path d="M48,68 C130,-20 170,-20 252,68 L150,170 Z" fill="#1e3d0f" stroke="none"/>
+<path d="M48,68 C130,-20 170,-20 252,68" fill="none" stroke="#3a7a1a" stroke-width="1.5"/>
+<line x1="150" y1="170" x2="48" y2="68" stroke="#3a7a1a" stroke-width="1"/>
+<line x1="150" y1="170" x2="252" y2="68" stroke="#3a7a1a" stroke-width="1"/>
+<polygon points="150,63 209,122 161,181 139,181 91,122" fill="#3d2a0a" stroke="none" fill-opacity="0.85"/>
+<polygon points="150,74 198,122 150,170 102,122" fill="#1e3d0f" stroke="none"/>
+<line x1="150" y1="170" x2="198" y2="122" stroke="#8b6015" stroke-width="1"/>
+<line x1="198" y1="122" x2="150" y2="74" stroke="#8b6015" stroke-width="1"/>
+<line x1="150" y1="74" x2="102" y2="122" stroke="#8b6015" stroke-width="1"/>
+<line x1="102" y1="122" x2="150" y2="170" stroke="#8b6015" stroke-width="1"/>
+<circle cx="150" cy="122" r="4" fill="#5c3d0a" stroke="#8b6015" stroke-width="0.8"/>
+<rect x="191" y="115" width="14" height="14" rx="2" fill="#E24B4A" stroke="#ff6b6b" stroke-width="1.2"/><text x="198" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">走</text><rect x="143" y="67" width="14" height="14" rx="2" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><rect x="95" y="115" width="14" height="14" rx="2" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><polygon points="150,162 157,170 150,176 143,170" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><circle cx="221" cy="110" r="9" fill="#185FA5" stroke="#378ADD" stroke-width="1"/><text x="221" y="114" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">審</text><text x="267" y="198" text-anchor="middle" font-size="9" fill="#888780">OUT</text><circle cx="258" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/><circle cx="274" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/><circle cx="290" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/></svg>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:4px">
+          <div class="mock-chip" style="flex:none;min-width:60px"><div class="mock-chip-l">アウト</div><div class="mock-chip-v">0</div></div>
+          <div class="mock-chip"><div class="mock-chip-l">走者</div><div class="mock-chip-v" style="font-size:13px">一塁</div></div>
+        </div>
+      </div>
+      <div class="howto-tip">💡 青丸が審判の初期位置（ファウルゾーン外）、赤いベースが走者の位置です。「プレイ！」を押すと問題が始まります。</div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="howto-step">
+      <div class="howto-step-num">STEP 3</div>
+      <div class="howto-step-title">①〜④の矢印をタップして答える</div>
+      <div class="howto-step-desc">打球が飛びます。どこに動きますか？色付き矢印をタップして選んでください。（7秒以内）</div>
+      <div class="howto-mock">
+        <div class="howto-mock-label">問題画面 — レフト方向フライ（同じ例の続き）</div>
+        <div class="mock-ball-row">
+          <span class="mock-badge" style="background:#791F1F;color:#FCEBEB">打球</span>
+          <span style="font-size:13px;font-weight:700;color:#f0efe8">フライ — レフト方向（三塁審が追う）</span>
+        </div>
+        <div class="mock-field">
+          <svg width="100%" viewBox="0 40 300 180" style="display:block">
+<rect x="0" y="40" width="300" height="180" fill="#1e3d0f"/>
+<path d="M48,68 C130,-20 170,-20 252,68 L150,170 Z" fill="#1e3d0f" stroke="none"/>
+<path d="M48,68 C130,-20 170,-20 252,68" fill="none" stroke="#3a7a1a" stroke-width="1.5"/>
+<line x1="150" y1="170" x2="48" y2="68" stroke="#3a7a1a" stroke-width="1"/>
+<line x1="150" y1="170" x2="252" y2="68" stroke="#3a7a1a" stroke-width="1"/>
+<polygon points="150,63 209,122 161,181 139,181 91,122" fill="#3d2a0a" stroke="none" fill-opacity="0.85"/>
+<polygon points="150,74 198,122 150,170 102,122" fill="#1e3d0f" stroke="none"/>
+<line x1="150" y1="170" x2="198" y2="122" stroke="#8b6015" stroke-width="1"/>
+<line x1="198" y1="122" x2="150" y2="74" stroke="#8b6015" stroke-width="1"/>
+<line x1="150" y1="74" x2="102" y2="122" stroke="#8b6015" stroke-width="1"/>
+<line x1="102" y1="122" x2="150" y2="170" stroke="#8b6015" stroke-width="1"/>
+<circle cx="150" cy="122" r="4" fill="#5c3d0a" stroke="#8b6015" stroke-width="0.8"/>
+<defs>
+<marker id="ht_h2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#E24B4A" stroke-width="1.5"/></marker>
+<marker id="ht2_1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#EF9F27" stroke-width="1.8"/></marker>
+<marker id="ht2_2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#5DCAA5" stroke-width="1.8"/></marker>
+<marker id="ht2_3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#ED93B1" stroke-width="1.8"/></marker>
+<marker id="ht2_4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#85B7EB" stroke-width="1.8"/></marker>
+</defs><rect x="191" y="115" width="14" height="14" rx="2" fill="#E24B4A" stroke="#ff6b6b" stroke-width="1.2"/><text x="198" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">走</text><rect x="143" y="67" width="14" height="14" rx="2" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><rect x="95" y="115" width="14" height="14" rx="2" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><polygon points="150,162 157,170 150,176 143,170" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/><line x1="150" y1="170" x2="77" y2="68" stroke="#E24B4A" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ht_h2)"/><circle cx="72" cy="62" r="5" fill="#E24B4A"/><circle cx="221" cy="110" r="9" fill="#185FA5" stroke="#378ADD" stroke-width="1"/><text x="221" y="114" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">審</text><line x1="221" y1="110" x2="231" y2="94" stroke="#EF9F27" stroke-width="3" marker-end="url(#ht2_1)"/><circle cx="230" cy="94" r="13" fill="#EF9F27" stroke="#BA7517" stroke-width="1"/><text x="230" y="99" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1918">1</text><circle cx="246" cy="110" r="13" fill="#5DCAA5" stroke="#0F6E56" stroke-width="1.5"/><text x="246" y="114" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1918">2</text><line x1="221" y1="110" x2="191" y2="118" stroke="#ED93B1" stroke-width="3" marker-end="url(#ht2_3)"/><circle cx="198" cy="116" r="13" fill="#ED93B1" stroke="#993556" stroke-width="1"/><text x="198" y="120" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1918">3</text><line x1="221" y1="110" x2="144" y2="120" stroke="#85B7EB" stroke-width="3" marker-end="url(#ht2_4)"/><circle cx="174" cy="116" r="13" fill="#85B7EB" stroke="#185FA5" stroke-width="1"/><text x="174" y="120" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1918">4</text><text x="267" y="198" text-anchor="middle" font-size="9" fill="#888780">OUT</text><circle cx="258" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/><circle cx="274" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/><circle cx="290" cy="208" r="7" fill="#2a2826" stroke="#5f5e5a" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="howto-tip">💡 赤い破線が打球の方向です。①〜④の矢印は「審判がどこに動くか」の選択肢です。タイマーが0になると不正解になります。</div>
+    </div>
+
+    <!-- STEP 4 -->    <!-- STEP 4 -->
+    <div class="howto-step">
+      <div class="howto-step-num">STEP 4</div>
+      <div class="howto-step-title">「何に備える？」を選ぶ</div>
+      <div class="howto-step-desc">動き先を選んだら、次は「何に備えるか」をテキストから選びます。8秒以内に！</div>
+      <div class="howto-mock">
+        <div class="howto-mock-label">画面イメージ</div>
+        <div class="mock-opts">
+          <div class="mock-opt">1. 本塁でのプレイに備える</div>
+          <div class="mock-opt">2. 三塁でのプレイに備えて三塁走者の動きを確認する</div>
+          <div class="mock-opt">3. 打球の捕球・落球を確認してその場で判定する</div>
+          <div class="mock-opt">4. 走者の本塁突入に備えてステイする</div>
+        </div>
+      </div>
+      <div class="howto-tip">💡 どれも「ありそう」な選択肢が並びます。細かい違いをしっかり読んで選んでください。</div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="howto-step">
+      <div class="howto-step-num">STEP 5</div>
+      <div class="howto-step-title">解説を確認する</div>
+      <div class="howto-step-desc">回答後に正解の動き（緑の矢印）と、ハンドブック第5版に基づくワンポイント解説が表示されます。</div>
+      <div class="howto-mock">
+        <div class="howto-mock-label">画面イメージ（結果画面）</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:22px;font-weight:900;color:#97C459">○</span>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#f0efe8">正解！ナイスジャッジ！</div>
+            <div style="font-size:12px;color:#888780">動きも備えも完璧です！</div>
+          </div>
+        </div>
+        <div class="mock-result">
+          <div style="font-size:10px;color:#5f9e5a;font-weight:700;margin-bottom:4px">正解</div>
+          <div style="font-size:12px;color:#f0efe8">動き：三塁でのプレイに備える / 備え：三塁走者のタッグアップを確認し、三塁でのプレイに備える</div>
+        </div>
+        <div class="mock-adv">
+          <div style="font-size:10px;color:#85B7EB;font-weight:700;margin-bottom:4px">ワンポイント</div>
+          <div style="font-size:11px;color:#E6F1FB;line-height:1.6">S4-4.3：走者三塁で一塁審がライト線を追うとき、三塁審は三塁走者のタッグアップを確認し、三塁でのプレイに備えます。</div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+<!-- 準備画面 -->
+<div id="s-ready" class="screen">
+  <div class="rdy-header">
+    <div class="rdy-pos-badge" id="rdy-badge">一塁審</div>
+    <div class="rdy-sit" id="rdy-sit">準備できたらプレイ！</div>
+  </div>
+  <div class="score-chips">
+    <div class="chip"><div class="chip-l">正解</div><div class="chip-v ok" id="sc-ok">0</div></div>
+    <div class="chip"><div class="chip-l">不正解</div><div class="chip-v ng" id="sc-ng">0</div></div>
+    <div class="chip"><div class="chip-l">問題数</div><div class="chip-v tot" id="sc-tot">0</div></div>
+  </div>
+  <div class="field-area">
+    <div class="field-wrap"><svg id="svg-ready" width="100%" viewBox="0 0 300 220" style="display:block"></svg></div>
+  </div>
+  <div class="info-row">
+    <div class="info-card" style="flex:none;min-width:72px;text-align:center">
+      <div class="info-label">アウト</div>
+      <div class="info-val" id="rdy-out-num" style="font-size:22px">0</div>
+    </div>
+    <div class="info-card" style="flex:2"><div class="info-label">走者</div><div class="info-val" id="rdy-runner">なし</div></div>
+    <div class="info-card" style="flex:none;min-width:72px;text-align:center">
+      <div class="info-label">進捗</div>
+      <div class="info-val" id="rdy-progress" style="font-size:13px">0/0</div>
+    </div>
+  </div>
+  <div class="rdy-btns">
+    <button class="btn btn-play" onclick="startQ()">プレイ！ ▶</button>
+    <button class="btn btn-change" onclick="goSelect()">ポジション変更</button>
+  </div>
+</div>
+
+<!-- クイズ画面 -->
+<div id="s-question" class="screen">
+  <div class="q-header">
+    <div class="q-pos-badge" id="q-pos-badge">一塁審</div>
+    <div class="q-sit-lbl" id="q-sit-lbl">0アウト・走者なし</div>
+  </div>
+  <div class="timer-bar"><div class="timer-fill" id="tfill" style="width:100%;background:#185FA5"></div></div>
+
+  <!-- フェーズ1: 打球表示（アニメーション） -->
+  <div id="phase-ball" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div class="ball-alert">
+      <div class="ball-alert-badge" id="ball-alert-badge">⚾ 打球！</div>
+      <div class="ball-alert-txt" id="ball-alert-txt"></div>
+    </div>
+    <div class="q-field-area" style="flex:1">
+      <div class="field-wrap"><svg id="svg-q-ball" width="100%" viewBox="0 0 300 220" style="display:block"></svg></div>
+    </div>
+    <div class="legend-row">
+      <div class="leg"><div class="leg-dot" style="background:#E24B4A"></div>打球の方向</div>
+      <div class="leg"><div class="leg-dot" style="background:#185FA5"></div>審判位置</div>
+    </div>
+  </div>
+
+  <!-- フェーズ2: 選択肢表示 -->
+  <div id="step-move" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div class="step-label">どこに動く？ — フィールドの矢印をタップ</div>
+    <div class="q-field-area">
+      <div class="field-wrap"><svg id="svg-q" width="100%" viewBox="0 0 300 220" style="display:block"></svg></div>
+    </div>
+    <div class="legend-row choices-reveal">
+      <div class="leg"><div class="leg-dot" style="background:#E24B4A"></div>打球</div>
+      <div class="leg"><div class="leg-dot" style="background:#185FA5"></div>審判位置</div>
+      <div class="leg"><div class="leg-dot" style="background:#EF9F27"></div>①〜④ 選択肢（タップ）</div>
+    </div>
+    <div class="opts-area" id="move-opts" style="display:none"></div>
+  </div>
+
+  <div id="step-prep" style="display:none">
+    <div class="step-label">何に備える？ — 選択してください</div>
+    <div class="opts-area" id="prep-opts"></div>
+  </div>
+</div>
+
+<!-- 結果画面 -->
+<div id="s-result" class="screen">
+  <div class="res-header">
+    <div class="res-icon" id="res-ico"></div>
+    <div>
+      <div class="res-title" id="res-title"></div>
+      <div class="res-det" id="res-det"></div>
+    </div>
+  </div>
+  <div class="res-field-area">
+    <div class="field-wrap"><svg id="svg-result" width="100%" viewBox="0 0 300 220" style="display:block"></svg></div>
+  </div>
+  <div class="legend-row">
+    <div class="leg"><div class="leg-dot" style="background:#E24B4A"></div>打球</div>
+    <div class="leg"><div class="leg-line" style="background:#97C459"></div>正解の動き</div>
+  </div>
+  <div class="res-body">
+    <div class="ans-card">
+      <div class="ans-lbl">どこに動く？ — 選択肢</div>
+      <div id="res-move-opts" style="display:flex;flex-direction:column;gap:4px;margin-top:4px"></div>
+    </div>
+    <div class="ans-card">
+      <div class="ans-lbl">何に備える？ — 選択肢</div>
+      <div id="res-prep-opts" style="display:flex;flex-direction:column;gap:4px;margin-top:4px"></div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-lbl">ワンポイント</div>
+      <div class="adv-val" id="res-adv"></div>
+    </div>
+  </div>
+  <div class="res-btns">
+    <button class="btn btn-play" id="res-btn-next" onclick="nextQ()">次の問題へ ▶</button>
+    <button class="btn btn-change" id="res-btn-home" onclick="goSelect()">ポジション変更</button>
+  </div>
+</div>
+
+<!-- セッション終了画面 -->
+<div id="s-end" class="screen">
+  <div class="rdy-header" style="flex-shrink:0;border-bottom:1px solid #2a2826">
+    <div class="sel-title" style="font-size:16px">セッション結果</div>
+  </div>
+  <div class="end-screen">
+    <div class="end-result-card">
+      <div class="end-result-icon" id="end-icon">◎</div>
+      <div class="end-result-title" id="end-title">セッション終了！</div>
+      <div class="end-result-score" id="end-score">0 / 0 問</div>
+      <div class="end-result-sub" id="end-pct">正解率 0%</div>
+      <div class="end-result-sub" id="end-pos" style="margin-top:4px"></div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:#888780;font-weight:700;margin-bottom:8px">シェアする</div>
+      <div class="share-row">
+        <button class="btn-share btn-share-x" onclick="shareX()">𝕏 でシェア</button>
+        <button class="btn-share btn-share-line" onclick="shareLine()">LINE</button>
+        <button class="btn-share btn-share-copy" onclick="shareCopy()" id="copy-btn">📋 コピー</button>
+      </div>
+    </div>
+  </div>
+  <div class="end-btns">
+    <button class="btn btn-play" onclick="replaySession()">もう一度（同じ設定）</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-play" style="flex:1" onclick="openHist('s-end')">成績履歴を見る</button>
+      <button class="btn btn-change" style="flex:1" onclick="goSelect()">ホームへ戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- 成績履歴画面 -->
+<div id="s-hist" class="screen">
+  <div class="howto-header">
+    <div class="howto-title">📊 成績履歴</div>
+    <button class="howto-back" onclick="show(histFrom)">✕ 閉じる</button>
+  </div>
+  <div class="howto-body" id="hist-body"></div>
+</div>
+
+</div>
+<script>
+// ====== 座標定義 ======
+const CX=150,CY=170,R=48;
+const P={
+  home:{x:CX,y:CY},
+  b1:{x:CX+R,y:CY-R},
+  b2:{x:CX,y:CY-R*2},
+  b3:{x:CX-R,y:CY-R},
+  lf:{x:CX-R*1.62,y:CY-R*2.25},
+  cf:{x:CX,y:CY-R*2.7},
+  rf:{x:CX+R*1.62,y:CY-R*2.25},
+  rcf:{x:CX+R*0.8,y:CY-R*2.52},
+  ss:{x:CX-R*0.46,y:CY-R*1.3},
+  sec:{x:CX+R*0.4,y:CY-R*1.26},
+  trd:{x:CX-R*0.8,y:CY-R*0.8},
+  pit:{x:CX,y:CY-R},
+  lfline:{x:CX-R*1.7,y:CY-R*2.0},  // 左翼線際・外野フェア側
+  rfline:{x:CX+R*1.7,y:CY-R*2.0},  // 右翼線際・外野フェア側
+  bunt3:{x:CX-R*0.44,y:CY-R*0.28},
+  out1:{x:CX+R*1.48,y:CY-R*1.25}, // 一塁ファウルゾーン外（ベース延長・ずらし後）
+  out3:{x:CX-R*1.48,y:CY-R*1.25}, // 三塁ファウルゾーン外（ベース延長・ずらし後）
+  b2r:{x:CX+R*0.28,y:CY-R*1.88},
+  b2l:{x:CX-R*0.28,y:CY-R*1.88},
+  b3c:{x:CX-R*0.88,y:CY-R*1.05},
+  near1:{x:CX+R*1.05,y:CY-R*0.5},
+  near3:{x:CX-R*1.05,y:CY-R*0.5},
+  hpl:{x:CX+R*0.28,y:CY+R*0.1},
+  mid:{x:CX,y:CY-R*1.42},
+  b23:{x:CX-R*0.28,y:CY-R*1.55},
+  uhp:{x:CX,y:CY+R*0.22},
+  u1:{x:CX+R*1.32,y:CY-R*0.18},
+  u2:{x:CX+R*0.18,y:CY-R*1.58},
+  u3:{x:CX-R*1.32,y:CY-R*0.18},
+  u2out:{x:CX,y:CY-R*2.7},        // 二塁審・外側（無走者）2塁ベース後方・センター寄り
+  u2ss:{x:CX-R*0.28,y:CY-R*1.58}, // 二塁審・外側（走者3塁）遊撃手後方
+  in1b:{x:CX+R*0.5,y:CY-R}, // 一塁審が内野内移動・一塁触塁確認位置
+  ft45:{x:CX+R*0.5,y:CY-R*0.5}, // 球審が45フィート追う地点（本塁→一塁の中間）
+  in3b:{x:CX-R*0.5,y:CY-R}, // 三塁審が内野内移動・三塁側位置
+  mid12:{x:CX+R*0.5,y:CY-R*1.5}, // 一・二塁間の中点（二塁審が一・二塁間に移動）
+  mid23:{x:CX-R*0.5,y:CY-R*1.5}, // 二・三塁間の中点（二塁審が二・三塁間に移動）
+  tagup3:{x:CX-R*1.03,y:CY-R*0.68}, // 三塁審がタッグアップ確認するファウルゾーン位置
+};
+// 1塁審・3塁審はファウルゾーン外（ベース後方）
+// 2塁審はランナーなし/3塁のみ→外側、それ以外→内野内
+const UPOS_BASE={'球審':P.uhp,'一塁審':P.out1,'三塁審':P.out3};
+const US={'球審':'球','一塁審':'審','二塁審':'審','三塁審':'審'};
+function getUmpPos(position, runners){
+  if(position==='球審') return P.uhp;
+  if(position==='一塁審') return P.out1;
+  if(position==='三塁審') return P.out3;
+  if(position==='二塁審'){
+    // ハンドブック取り決め事項1:
+    // 無走者 → 2塁ベース後方（外野寄り）= u2out
+    // 走者3塁のみ → 遊撃手の後方 = u2ss
+    // 走者1塁/2塁/1-2塁/1-3塁/2-3塁/満塁 → 内野内 = u2
+    const r = runners||[];
+    if(r.length===0) return P.u2out;            // 無走者: 2塁後方
+    if(r.length===1 && r[0]==='3') return P.u2ss; // 走者3塁のみ: 遊撃手後方
+    return P.u2;                                 // それ以外: 内野内
+  }
+  return P.u2;
+}
+const RM={'1':'一塁','2':'二塁','3':'三塁'};
+function rTxt(r){return r&&r.length?r.map(x=>RM[x]).join('・'):'なし'}
+
+const QS={
+// =====================================================================
+// 球審
+// =====================================================================
+'球審':[
+  // S1 無走者 内野ゴロ
+  {outs:0,randomOuts:true,runners:[],ball:'内野ゴロ（どの方向でも）',bf:P.home,bt:P.trd,
+   moves:['打者走者の後方45フィートまで追いかける','三塁をカバーしに走る','本塁付近へ移動する','二塁方向へ走る'],
+   mto:[P.ft45,P.near3,P.uhp,P.b2],cm:0,
+   preps:['一塁でのプレイに備える','三塁でのプレイに備える','本塁でのプレイに備える','打球方向へ走り捕球確認する'],cp:0,
+   adv:'球審は内野ゴロで打者走者の後方45フィートまで追いかけ一塁でのプレイに備えます。一塁手の足離れ、スワイプタッグ、悪送球、守備妨害の確認が目的です。'},
+  // S1 無走者 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['三塁付近へ移動する','本塁付近へ移動する','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.in3b,P.uhp,P.lf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','外野フェンス付近まで移動する'],cp:0,
+   adv:'無走者で三塁審がレフト線の打球を追うとき、球審は三塁でのプレイに備えます。打者走者が三塁へ向かい球審が三塁へ移動したら、一塁審が本塁でのプレイに備えます。'},
+  // S1 無走者 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['打者走者の後方を追う','三塁方向へ走る','ライト方向へ追う','本塁付近へ移動する'],
+   mto:[P.in1b,P.near3,P.lf,P.b2],cm:0,
+   preps:['一塁触塁を確認し、一塁・本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'無走者で一塁審がライト線を追うとき、球審は打者走者の一塁触塁を確認し一塁および本塁でのプレイに備えます。打者走者が三塁に向かったら本塁に戻ります。'},
+  // S1 無走者 二塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['三塁付近へ移動する','本塁付近へ移動する','レフト方向へ走る','二塁方向へ走る'],
+   mto:[P.in3b,P.uhp,P.lf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','一塁のプレイに備える'],cp:0,
+   adv:'無走者で二塁審がセンターの打球を追うとき、球審は三塁でのプレイに備えます。打者走者が三塁に向かい球審が三塁へ移動したら、一塁審が本塁でのプレイに備えます。'},
+  // S2 走者一塁 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['三塁付近へ移動する','本塁付近へ移動する','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.in3b,P.uhp,P.lf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'走者一塁で三塁審が追うとき、球審は三塁でのプレイに備えます。一塁走者が三塁へ向かい球審が三塁へ移動したら、一塁審が本塁へ向かいます。'},
+  // S2 走者一塁 一塁審Goes Out
+  {outs:0,randomOuts01:true,runners:['1'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['一塁方向へ走る','タッグアップ確認位置へ移動する','ライト方向へ追う','ステップバック（後退）する'],
+   mto:[P.ft45,P.near3,P.rf,P.b2],cm:0,
+   preps:['走者のタッグアップと打者走者の一塁触塁を確認し、本塁でのプレイに備える','三塁でのプレイに備える（三塁走者がタッグアップして進塁する場合）','打球の捕球・落球を確認してその場で判定する','一塁走者の二塁進塁を確認し、一・二塁でのプレイに備える'],cp:0,
+   adv:'走者一塁で一塁審がライトを追うとき、球審はまず一塁方向へ走り、一塁走者のタッグアップおよび打者走者の一塁触塁を確認します。走者が三塁へ向かい球審が三塁へ移動したら本塁でのプレイに備えます。'},
+  // S3 走者二塁
+  {outs:0,randomOuts:true,runners:['2'],ball:'フライ — いずれかの方向',bf:P.home,bt:P.cf,
+   moves:['本塁付近へ移動する','三塁へ走る','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'走者が二塁または三塁のスコアリングポジションにいるときは球審は本塁に留まります。一塁および三塁をカバーするのは走者一塁および走者なしのときのみです。'},
+  // S4 走者三塁 三塁審Goes Out
+  {outs:0,randomOuts01:true,runners:['3'],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','レフト線方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、本塁でのプレイに備える','三塁走者のタッグアップを確認してから三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','走者の二塁進塁を確認し、一・二塁でのプレイに備える'],cp:0,
+   adv:'走者三塁で三塁審がレフト線を追うとき、球審は三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S4 走者三塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['本塁付近へ移動する','三塁へ走る','ライト方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.rf,P.b2],cm:0,
+   preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'走者三塁で一塁審がライト線を追うとき、球審は本塁でのプレイに備えます。三塁塁審が三塁走者のタッグアップを確認します。'},
+  // S5 走者一・二塁
+  {outs:0,randomOuts:true,runners:['1','2'],ball:'フライ — いずれかの方向',bf:P.home,bt:P.cf,
+   moves:['本塁付近へ移動する','三塁へ走る','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'走者一・二塁はスコアリングポジションのため球審は本塁に留まります。三塁審が打球を追い、二塁審が二・三塁でのプレイに備え、一塁審が一・二塁でのプレイに備えます。'},
+  // S6 走者一・三塁
+  {outs:0,randomOuts01:true,runners:['1','3'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','レフト線方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、本塁でのプレイに備える','三塁走者のタッグアップを確認してから三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','走者の二塁進塁を確認し、一・二塁でのプレイに備える'],cp:0,
+   adv:'走者一・三塁で三塁審が追うとき、球審は三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S7 走者二・三塁
+  {outs:0,randomOuts:true,runners:['2','3'],ball:'フライ — いずれかの方向',bf:P.home,bt:P.cf,
+   moves:['本塁付近へ移動する','三塁へ走る','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'走者二・三塁はスコアリングポジションのため球審は本塁に留まります。'},
+  // S8 満塁
+  {outs:0,randomOuts:true,runners:['1','2','3'],ball:'フライ — いずれかの方向',bf:P.home,bt:P.cf,
+   moves:['本塁付近へ移動する','三塁へ走る','レフト方向へ追う','二塁方向へ走る'],
+   mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+   preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','走者のタッグアップを確認'],cp:0,
+   adv:'満塁はスコアリングポジションのため球審は本塁に留まります。三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+
+  {outs:2,runners:['3'],fixedOuts:true,ball:'フライ — レフト線（三塁審が追う・2アウト）',bf:P.home,bt:P.lfline,
+ moves:['本塁付近へ移動する','三塁へ走る','レフト方向へ追う','二塁方向へ走る'],
+ mto:[P.uhp,P.near3,P.lf,P.b2],cm:0,
+ preps:['本塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','外野フェンス付近まで移動する'],cp:0,
+ adv:'2アウトはタッグアップ不要のため三塁走者は打球と同時にスタートします。球審は本塁に留まり生還の判定に備えます。二塁審は外側ポジションをとれます。'},
+  {outs:1,runners:[],fixedOuts:true,ball:'内野ゴロ（1アウト）',bf:P.home,bt:P.b1,
+ moves:['打者走者の後方45フィートまで追いかける','三塁をカバーしに走る','本塁付近へ移動する','二塁方向へ走る'],
+ mto:[P.ft45,P.near3,P.uhp,P.b2],cm:0,
+ preps:['一塁でのプレイに備える','三塁でのプレイに備える','本塁でのプレイに備える','打球方向へ走り捕球確認する'],cp:0,
+ adv:'アウトカウントにかかわらず、球審は内野ゴロで打者走者の後方45フィートまで追いかけ一塁でのプレイに備えます。1アウトでも動きは同じです。'},
+  {outs:2,runners:[],fixedOuts:true,ball:'内野ゴロ（2アウト）',bf:P.home,bt:P.b1,
+ moves:['打者走者の後方45フィートまで追いかける','三塁をカバーしに走る','本塁付近へ移動する','二塁方向へ走る'],
+ mto:[P.ft45,P.near3,P.uhp,P.b2],cm:0,
+ preps:['一塁でのプレイに備える','三塁でのプレイに備える','本塁でのプレイに備える','打球方向へ走り捕球確認する'],cp:0,
+ adv:'2アウトでも球審の内野ゴロの動きは同じです。打者走者の後方45フィートまで追いかけ一塁でのプレイに備えます。'},
+],
+// =====================================================================
+// 一塁審
+// =====================================================================
+'一塁審':[
+  // S1 無走者 内野ゴロ
+  {outs:0,randomOuts:true,runners:[],ball:'内野ゴロ（どの方向でも）',bf:P.home,bt:P.b1,
+   moves:['内野内に入る（一塁寄り）','二塁ベースへ走る','一塁ベース付近へ移動する','投手マウンド付近へ移動'],
+   mto:[P.in1b,P.b2r,P.b1,P.pit],cm:0,
+   preps:['一塁でのアウト・セーフ判定','二塁でのプレイに備える','一塁手の捕球確認のみ','打者走者の守備妨害確認'],cp:0,
+   adv:'内野ゴロで一塁審はフォースプレイに備え内野内に入ります。打者走者が一塁に戻るのか二塁へ向かうのかを確認してからボールの所在とその後のプレイに備えます。球審が45フィート地点まで補佐します。'},
+  // S1 無走者 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['ファウルライン外に留まる','レフト方向へ追う','ファウルライン外に留まる','三塁方向へ走る'],
+   mto:[P.out1,P.lf,P.b2,P.near3],cm:0,
+   preps:['一塁触塁確認後、打者走者が三塁へ向かい球審が三塁へ移動したら本塁でのプレイに備える','打球の捕球・落球を確認してからレフト線のフェアファウルを判定する','打者走者の二塁進塁を確認してから二塁でのプレイに備える','三塁でのプレイに備えてすぐに三塁方向へ走る'],cp:0,
+   adv:'三塁審が追うとき、一塁審は打者走者の一塁触塁を確認し打者走者が二塁に到達するまでその場に留まります。打者走者が三塁に向かい球審が三塁へ移動したら本塁でのプレイに備えます。'},
+  // S1 無走者 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','三塁方向へ走る'],
+   mto:[P.rfline,P.u1,P.b2,P.near3],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','二塁でのプレイに備える','三塁でのプレイに備える'],cp:0,
+   adv:'外野飛球を追いかけた審判はプレイが終了するまで内野へ戻ってはなりません。追ったら判定後その場に留まります。'},
+  // S1 無走者 二塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['ファウルライン外に留まる','レフト方向へ追う','ファウルライン外に留まる','三塁方向へ走る'],
+   mto:[P.out1,P.lf,P.b2,P.near3],cm:0,
+   preps:['一塁触塁確認後、打者走者が三塁へ向かい球審が三塁へ移動したら本塁でのプレイに備える','打球の捕球・落球を確認してからレフト線のフェアファウルを判定する','打者走者の二塁進塁を確認してから二塁でのプレイに備える','三塁でのプレイに備えてすぐに三塁方向へ走る'],cp:0,
+   adv:'二塁審がセンターを追うとき、一塁審は打者走者の一塁触塁を確認しその場に留まります。打者走者が三塁に向かい球審が三塁へ移動したら本塁でのプレイに備えます。'},
+  // S2 走者一塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts01:true,runners:['1'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['一塁でのプレイ位置へ移動する','レフト方向へ追う','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.out1,P.lf,P.b2r,P.hpl],cm:0,
+   preps:['走者のタッグアップと打者走者の一塁触塁を確認し、一塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一・二塁でのプレイに備えて一・二塁間へ移動する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者一塁で三塁審が追うとき、一塁審は一塁走者のタッグアップおよび打者走者の一塁触塁を確認し一塁でのプレイに備えます。一塁走者が三塁へ向かい球審が三塁へ移動したら本塁へ向かいます。'},
+  // S2 走者一塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一塁で一塁審がライトを追うとき、一塁審は打球を追い判定後その場に留まります。二塁審が一・二塁間に移動して一塁走者の二塁触塁を確認します。'},
+  // S3 走者二塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:['2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者二塁で三塁審が追うとき、一塁審は内野内に移動またはリミングで打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S3 走者二塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者二塁で一塁審が追うとき、一塁審は打球を追い判定後その場に留まります。二塁審がステップバックしながら二塁走者のタッグアップと打者走者の一塁触塁を確認します。'},
+  // S4 走者三塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者三塁で三塁審がレフト線を追うとき、一塁審は内野内に移動またはリミングで打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S4 走者三塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rfline,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者三塁で一塁審がライト線を追うとき、一塁審は打球を追い判定後その場に留まります。二塁審が一・二塁間に移動して打者走者の一塁触塁を確認します。'},
+  // S4 走者三塁 二塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者三塁で二塁審がセンターを追うとき、一塁審は内野内に移動またはリミングで打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S5 走者一・二塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['一塁走者のタッグアップまたは二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップ・三塁触塁を確認し打者走者の一塁触塁も確認して二・三塁のプレイに備える','一塁走者の二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認しその後三塁でのプレイに備えて三塁方向へ移動する'],cp:0,
+   adv:'走者一・二塁で三塁審が追うとき、一塁審は内野内に移動またはリミングで一塁走者のタッグアップまたは二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S5 走者一・二塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1','2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一・二塁で一塁審がライトを追うとき、一塁審は打球を追い判定後その場に留まります。二塁審がステップバックしながら一塁・二塁走者のタッグアップ、触塁を確認します。'},
+  // S6 走者一・三塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts01:true,runners:['1','3'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['一塁走者のタッグアップ・二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップ・三塁触塁を確認し打者走者の一塁触塁も確認して二・三塁のプレイに備える','一塁走者の二塁触塁を確認し、その場に留まって一・二塁でのプレイに備える','打球の捕球・落球を確認しその後三塁でのプレイに備えて三塁方向へ移動する'],cp:0,
+   adv:'走者一・三塁で三塁審が追うとき、一塁審は内野内に移動またはリミングで一塁走者のタッグアップ・二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S6 走者一・三塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1','3'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一・三塁で一塁審がライトを追うとき、一塁審は打球を追い判定後その場に留まります。二塁審がステップバックしながら一塁走者のタッグアップ・二塁触塁を確認します。'},
+  // S7 走者二・三塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts:true,runners:['2','3'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者二・三塁で三塁審が追うとき、一塁審は内野内に移動またはリミングで打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S7 走者二・三塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['2','3'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者二・三塁で一塁審がライトを追うとき、一塁審は打球を追い判定後その場に留まります。二塁審がステップバックしながら二塁走者のタッグアップおよび打者走者の一塁触塁を確認します。'},
+  // S8 満塁 三塁審Goes Out→1Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2','3'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['内野内へ移動する（一塁寄り）','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.in1b,P.lf,P.near3,P.hpl],cm:0,
+   preps:['一塁走者のタッグアップ・二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップ・三塁触塁を確認し打者走者の一塁触塁も確認して二・三塁のプレイに備える','一塁走者の二塁触塁を確認し、その場に留まって一・二塁でのプレイに備える','打球の捕球・落球を確認しその後三塁でのプレイに備えて三塁方向へ移動する'],cp:0,
+   adv:'満塁で三塁審が追うとき、一塁審は内野内に移動またはリミングで一塁走者のタッグアップ・二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S8 満塁 一塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1','2','3'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['打球を追いその場に留まる','一塁ベース付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.rf,P.u1,P.b2r,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','一塁でのアウト・セーフ判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'満塁で一塁審がライトを追うとき、一塁審は打球を追い判定後その場に留まります。二塁審がステップバックしながら一・二塁走者のタッグアップ、触塁および打者走者の一塁触塁を確認します。'},
+
+  {outs:1,runners:['1'],fixedOuts:true,ball:'フライ — レフト方向（三塁審が追う・1アウト）',bf:P.home,bt:P.lf,
+ moves:['一塁でのプレイ位置へ移動する','レフト方向へ追う','二塁方向へ走る','本塁方向へ走る'],
+ mto:[P.out1,P.lf,P.b2r,P.hpl],cm:0,
+ preps:['走者のタッグアップと打者走者の一塁触塁を確認し、一塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一・二塁でのプレイに備えて一・二塁間へ移動する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+ adv:'フライ捕球後、走者はタッグアップして進塁できます。一塁審は一塁走者の離塁タイミング（タッグアップ）を確認する必要があります。2アウトとは動きが異なります。'},
+  {outs:2,runners:['1'],fixedOuts:true,ball:'フライ — レフト方向（三塁審が追う・2アウト）',bf:P.home,bt:P.lf,
+ moves:['ファウルゾーン側へ移動する','レフト方向へ追う','二塁方向へ走る','本塁方向へ走る'],
+ mto:[P.out1,P.lf,P.b2r,P.hpl],cm:0,
+ preps:['一塁でのプレイに備える','打球の捕球・落球を判定','一・二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+ adv:'2アウトでは走者はタッグアップ不要で打球と同時にスタートします。一塁審はタッグアップを確認する必要はなく、ファウルライン外でスタンバイし一塁でのプレイに備えます。'},
+],
+// =====================================================================
+// 二塁審
+// =====================================================================
+'二塁審':[
+  // S1 無走者 二塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['打球を追いその場に留まる','二塁ベース後方へ移動する','三塁方向へ走る','一塁方向へ走る'],
+   mto:[P.cf,P.u2out,P.near3,P.near1],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','二塁でのプレイに備える','三塁でのプレイに備える','一塁でのプレイに備える'],cp:0,
+   adv:'無走者のとき二塁審は二塁ベース後方に位置し、左翼手から右翼手までのセンター方向の打球に責任を持ちます。追ったら判定後その場に留まります。三塁審が二塁でのプレイに備えます。'},
+  // S1 無走者 三塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['二塁ベース後方へ移動する','三塁方向へ走る','レフト方向へ追う','本塁方向へ走る'],
+   mto:[P.b2,P.near3,P.lf,P.hpl],cm:0,
+   preps:['二塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','本塁でのプレイに備える'],cp:0,
+   adv:'無走者で三塁審がレフト線を追うとき、二塁審は二塁でのプレイに備えます。球審が三塁でのプレイに備え、一塁審が一塁触塁確認後その場に留まります。'},
+  // S1 無走者 一塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['二塁ベース後方へ移動する','三塁方向へ走る','ライト方向へ追う','本塁方向へ走る'],
+   mto:[P.b2,P.near3,P.rf,P.hpl],cm:0,
+   preps:['二塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','本塁でのプレイに備える'],cp:0,
+   adv:'無走者で一塁審がライト線を追うとき、二塁審は二塁でのプレイに備えます。球審が打者走者の一塁触塁を確認し一塁・本塁をカバーします。'},
+  // S2 走者一塁 三塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['一・二塁間へ移動する','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.mid12,P.lf,P.near3,P.hpl],cm:0,
+   preps:['一塁走者の二塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者一塁で三塁審が追うとき、二塁審は一・二塁間に移動して一塁走者の二塁触塁を確認し、一・二塁でのプレイに備えます。内野内に位置しているため外野打球は追いません。'},
+  // S2 走者一塁 一塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['一・二塁間へ移動する','レフト方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.mid12,P.rf,P.near3,P.hpl],cm:0,
+   preps:['一塁走者の二塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者一塁で一塁審が追うとき、二塁審は一・二塁間に移動して一塁走者の二塁触塁を確認し、一・二塁でのプレイに備えます（一塁走者および打者走者の一塁への帰塁プレイを含む）。'},
+  // S2 走者一塁 内野ゴロ（フォースアウト）→2Bの動き
+  {outs:0,randomOuts:true,runners:['1'],ball:'内野ゴロ（二塁へのフォースプレイ）',bf:P.home,bt:P.ss,
+   moves:['二塁ベースへ走る','一塁方向へ走る','三塁方向へ走る','外野方向へ走る'],
+   mto:[P.b2,P.near1,P.near3,P.cf],cm:0,
+   preps:['二塁フォースアウトの判定','一塁でのプレイに備える','三塁でのプレイに備える','外野打球の判定'],cp:0,
+   adv:'走者一塁で二塁審は内野内に位置します。内野ゴロで二塁へのフォースアウトを判定するのは二塁審です。送球に対して90度の位置で走者の触塁と捕球タイミングを確認します。一塁への送球は一塁審が担当します。'},
+  // S3 走者二塁 三塁審Goes Out→2Bの動き
+  {outs:0,randomOuts01:true,runners:['2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['二・三塁間へ移動する','一・二塁間へ移動する','レフト方向へ追う','本塁付近へ移動する'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップ・三塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一塁でのプレイに備えて一塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者二塁で三塁審が追うとき、二塁審は二・三塁間寄りのマウンド方向に移動して二塁走者のタッグアップまたは三塁触塁を確認し、二・三塁でのプレイに備えます。'},
+  // S3 走者二塁 一塁審Goes Out→2Bの動き
+  {outs:0,randomOuts01:true,runners:['2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['ステップバック（後退）する','二・三塁間へ移動する','ライト方向へ追う','本塁付近へ移動する'],
+   mto:[P.b2r,P.rf,P.near3,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップと打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップを確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認し、走者の離塁タイミングも確認する','本塁でのプレイに備えて走者の本塁突入に備えてステイする'],cp:0,
+   adv:'走者二塁で一塁審が追うとき、二塁審はステップバック（視野を広げながら）して二塁走者のタッグアップと打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S4 走者三塁 三塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['三塁方向の内野内に移動する','ライト線方向へ追う','一塁方向へ走る','本塁方向へ走る'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['三塁でのプレイに備える','打球の捕球・落球を判定','一塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者三塁で三塁審がレフト線を追うとき（二塁審が外側）、二塁審は三塁方向の内野内に移動して三塁でのプレイに備えます。'},
+  // S4 走者三塁 一塁審Goes Out→2Bの動き
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['一塁方向の内野内へ移動する','ライト線方向へ追う','三塁方向へ走る','本塁方向へ走る'],
+   mto:[P.mid12,P.rfline,P.near3,P.hpl],cm:0,
+   preps:['打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','三塁でのプレイに備えて三塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者三塁で一塁審がライト線を追うとき（二塁審が外側）、二塁審は一塁方向の内野内に移動して打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S5 走者一・二塁 三塁審Goes Out→2Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['二・三塁間へ移動する','一・二塁間へ移動する','レフト方向へ追う','本塁付近へ移動する'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップまたは三塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一塁でのプレイに備えて一塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者一・二塁で三塁審が追うとき、二塁審は二・三塁間寄りのマウンド方向に移動して二塁走者のタッグアップまたは三塁触塁を確認し、二・三塁でのプレイに備えます。'},
+  // S5 走者一・二塁 一塁審Goes Out→2Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['ステップバック（後退）する','二・三塁間へ移動する','ライト方向へ追う','本塁付近へ移動する'],
+   mto:[P.b2r,P.rf,P.near3,P.hpl],cm:0,
+   preps:['一塁・二塁走者のタッグアップ、一塁走者の二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップと打者走者の一塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認し、全走者の離塁タイミングも確認する','本塁でのプレイに備えて走者の本塁突入に備えてステイする'],cp:0,
+   adv:'走者一・二塁で一塁審が追うとき、二塁審はステップバックしながら視野を広げ、一・二塁走者のタッグアップ、一塁走者の二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S6 走者一・三塁 三塁審Goes Out→2Bの動き（内野内）
+  {outs:0,randomOuts:true,runners:['1','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['二・三塁間へ移動する','レフト方向へ追う','一塁方向へ走る','本塁方向へ走る'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['一塁走者の二塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一塁でのプレイに備えて一塁走者の触塁を確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者一・三塁で三塁審が追うとき（二塁審が内野内）、二塁審は二・三塁間に移動して一塁走者の二塁触塁を確認し、二・三塁でのプレイに備えます。'},
+  // S7 走者二・三塁 三塁審Goes Out→2Bの動き（内野内）
+  {outs:0,randomOuts01:true,runners:['2','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['二・三塁間へ移動する','一・二塁間へ移動する','レフト方向へ追う','本塁付近へ移動する'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップおよび三塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一塁でのプレイに備えて一塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'走者二・三塁で三塁審が追うとき（二塁審が内野内）、二塁審は二・三塁間に移動して二塁走者のタッグアップおよび三塁触塁を確認し、二・三塁でのプレイに備えます。'},
+  // S7 走者二・三塁 一塁審Goes Out→2Bの動き（内野内）
+  {outs:0,randomOuts01:true,runners:['2','3'],ball:'フライ — ライト方向（一塁審が追う、二塁審が内野内）',bf:P.home,bt:P.rf,
+   moves:['ステップバック（後退）する','二・三塁間へ移動する','ライト方向へ追う','本塁付近へ移動する'],
+   mto:[P.b2r,P.rf,P.near3,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップと打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップを確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認し、走者の離塁タイミングも確認する','本塁でのプレイに備えて走者の本塁突入に備えてステイする'],cp:0,
+   adv:'走者二・三塁で一塁審が追うとき（二塁審が内野内）、二塁審はステップバックしながら二塁走者のタッグアップおよび打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+  // S8 満塁 三塁審Goes Out→2Bの動き（内野内）
+  {outs:0,randomOuts01:true,runners:['1','2','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['二・三塁間へ移動する','一・二塁間へ移動する','レフト方向へ追う','本塁付近へ移動する'],
+   mto:[P.mid23,P.lf,P.near1,P.hpl],cm:0,
+   preps:['二塁走者のタッグアップおよび三塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','一塁でのプレイに備えて一塁走者の動きを確認する','本塁でのプレイに備えて本塁方向へ走る'],cp:0,
+   adv:'満塁で三塁審が追うとき（二塁審が内野内）、二塁審は二・三塁間寄りのマウンド方向に移動して二塁走者のタッグアップおよび三塁触塁を確認し、二・三塁でのプレイに備えます。'},
+  // S8 満塁 一塁審Goes Out→2Bの動き（内野内）
+  {outs:0,randomOuts01:true,runners:['1','2','3'],ball:'フライ — ライト方向（一塁審が追う、二塁審が内野内）',bf:P.home,bt:P.rf,
+   moves:['ステップバック（後退）する','二・三塁間に移動する','ライト方向へ追う','本塁付近へ移動する'],
+   mto:[P.b2r,P.rf,P.near3,P.hpl],cm:0,
+   preps:['一・二塁走者のタッグアップ、一塁走者の二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備える','二塁走者のタッグアップと打者走者の一塁触塁を確認し、二・三塁でのプレイに備える','打球の捕球・落球を確認し、全走者の離塁タイミングも確認する','本塁でのプレイに備えて走者の本塁突入に備えてステイする'],cp:0,
+   adv:'満塁で一塁審が追うとき（二塁審が内野内）、二塁審はステップバックしながら一・二塁走者のタッグアップ、一塁走者の二塁触塁および打者走者の一塁触塁を確認し、一・二塁でのプレイに備えます。'},
+
+  {outs:2,runners:['3'],fixedOuts:true,ball:'フライ — センター方向（2アウト・走者三塁）',bf:P.home,bt:P.cf,
+ moves:['二塁後方の外側ポジションをとる','内野内にとどまる','三塁方向へ走る','本塁方向へ走る'],
+ mto:[P.u2out,P.u2,P.near3,P.hpl],cm:0,
+ preps:['外野打球の捕球・落球を判定する','内野内に位置し、三塁でのプレイに備える','三塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+ adv:'2アウト走者三塁のとき、二塁審は無走者と同じ外側（二塁後方）ポジションをとることができます。これにより外野打球の責任範囲が広がります。0・1アウトでは内野内に位置します。'},
+  {outs:0,randomOuts:false,fixedOuts:true,ball:'フライ — センター方向（0アウト・走者三塁）',bf:P.home,bt:P.cf,
+ moves:['内野内に位置し外野打球は追わない','二塁後方の外側ポジションをとる','三塁方向へ走る','本塁方向へ走る'],
+ mto:[P.u2,P.u2out,P.near3,P.hpl],cm:0,
+ preps:['内野内に位置し、三塁でのプレイに備える','外側で外野打球を追う','三塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+ adv:'走者三塁のとき、二塁審は遊撃手後方の外側に位置します。ただし0・1アウトでは走者のタッグアップが発生するため、内野内寄りで三塁のプレイに備えます。2アウトでは外側ポジション可。'},
+],
+// =====================================================================
+// 三塁審
+// =====================================================================
+'三塁審':[
+  // S1 無走者 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lfline,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'三塁審は左翼手定位置から左翼線寄りの打球に責任を持ちます。追いかけたら判定後その場に留まり、プレイが終了するまで内野へ戻ってはなりません。'},
+  // S1 無走者 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['三塁付近へ移動する','本塁方向へ走る','ライト方向へ追う','二塁方向へ走る'],
+   mto:[P.in3b,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','二塁でのプレイに備える'],cp:0,
+   adv:'無走者で一塁審がライト線を追うとき、三塁審は三塁でのプレイに備えます。球審が打者走者の一塁触塁を確認し一塁・本塁をカバーします。'},
+  // S1 無走者 二塁審Goes Out→3Bの動き
+  {outs:0,randomOuts:true,runners:[],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['二塁ベース内野内へ移動する','三塁付近へ移動する','センター方向へ追う','本塁方向へ走る'],
+   mto:[P.b2,P.u3,P.cf,P.hpl],cm:0,
+   preps:['二塁でのプレイに備える','三塁でのプレイに備える','打球の捕球・落球を判定','本塁でのプレイに備える'],cp:0,
+   adv:'無走者で二塁審がセンターを追うとき、三塁審は二塁ベース内野内に移動して二塁でのプレイに備えます。球審が三塁でのプレイに備え、一塁審が一塁触塁確認後その場に留まります。'},
+  // S2 走者一塁 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一塁のとき、三塁審は中堅手定位置から左翼線寄りの打球に責任を持ちます。打球を追ったら判定後その場に留まります。球審は三塁でのプレイに備え、二塁審は一・二塁間へ移動します。'},
+  // S2 走者一塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts:true,runners:['1'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['三塁付近へ移動する','本塁方向へ走る','ライト方向へ追う','二塁方向へ走る'],
+   mto:[P.in3b,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','二塁でのプレイに備える'],cp:0,
+   adv:'走者一塁で一塁審がライトを追うとき、三塁審は三塁でのプレイに備えます。球審が一塁走者のタッグアップと打者走者の一塁触塁を確認しながら本塁でのプレイに備えます。'},
+  // S3 走者二塁 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:['2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者二塁で三塁審が追うとき、二塁審が二・三塁間へ移動して二塁走者のタッグアップおよび三塁触塁を確認します。球審は本塁に留まり、一塁審が一・二塁でのプレイに備えます。'},
+  // S3 走者二塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['三塁付近へ移動する','本塁方向へ走る','ライト方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','二塁でのプレイに備える'],cp:0,
+   adv:'走者二塁で一塁審がライトを追うとき、三塁審は三塁でのプレイに備えます。二塁審がステップバックしながら二塁走者のタッグアップと打者走者の一塁触塁を確認します。'},
+  // S4 走者三塁 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:['3'],ball:'フライ — レフト線（三塁審が追う）',bf:P.home,bt:P.lfline,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lfline,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁走者のタッグアップを確認し、三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者三塁で三塁審がレフト線を追うとき、三塁審は打球を追い判定後その場に留まります。球審が三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S4 走者三塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['3'],ball:'フライ — ライト線（一塁審が追う）',bf:P.home,bt:P.rfline,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','外野方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、三塁でのプレイに備える','三塁走者のタッグアップを確認してから本塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','二塁でのプレイに備えて二塁走者の動きを確認する'],cp:0,
+   adv:'走者三塁で一塁審がライト線を追うとき、三塁審は三塁走者のタッグアップを確認し、三塁でのプレイに備えます。球審が本塁でのプレイに備えます。'},
+  // S4 走者三塁 二塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['3'],ball:'フライ — センター方向（二塁審が追う）',bf:P.home,bt:P.cf,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','外野方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.cf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、三塁でのプレイに備える','三塁走者のタッグアップを確認してから本塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','二塁でのプレイに備えて二塁走者の動きを確認する'],cp:0,
+   adv:'走者三塁で二塁審がセンターを追うとき、三塁審は三塁走者のタッグアップを確認し、三塁でのプレイに備えます。球審が本塁でのプレイに備えます。'},
+  // S5 走者一・二塁 三塁審Goes Out
+  {outs:0,randomOuts:true,runners:['1','2'],ball:'フライ — レフト方向（三塁審が追う）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一・二塁で三塁審が追うとき、三塁審は打球を追い判定後その場に留まります。二塁審が二・三塁間へ移動して二塁走者のタッグアップ・三塁触塁を確認します。'},
+  // S5 走者一・二塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2'],ball:'フライ — ライト方向（一塁審が追う）',bf:P.home,bt:P.rf,
+   moves:['三塁付近へ移動する','本塁方向へ走る','ライト方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','二塁でのプレイに備える'],cp:0,
+   adv:'走者一・二塁で一塁審がライトを追うとき、三塁審は三塁でのプレイに備えます。二塁審がステップバックしながら一・二塁走者のタッグアップ・触塁および打者走者の一塁触塁を確認します。'},
+  // S6 走者一・三塁 三塁審Goes Out（内野内）
+  {outs:0,randomOuts:true,runners:['1','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁走者のタッグアップを確認し、三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者一・三塁で三塁審が追うとき、三塁審は打球を追い判定後その場に留まります。球審が三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S7 走者二・三塁 三塁審Goes Out（内野内）
+  {outs:0,randomOuts:true,runners:['2','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁走者のタッグアップを確認し、三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'走者二・三塁で三塁審が追うとき、三塁審は打球を追い判定後その場に留まります。球審が三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S7 走者二・三塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['2','3'],ball:'フライ — ライト方向（一塁審が追う、二塁審が内野内）',bf:P.home,bt:P.rf,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','外野方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、三塁でのプレイに備える','三塁走者のタッグアップを確認してから本塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','二塁でのプレイに備えて二塁走者の動きを確認する'],cp:0,
+   adv:'走者二・三塁で一塁審がライトを追うとき、三塁審は三塁走者のタッグアップを確認し、三塁でのプレイに備えます。二塁審が一・二塁間でのプレイに備えます。'},
+  // S8 満塁 三塁審Goes Out（内野内）
+  {outs:0,randomOuts:true,runners:['1','2','3'],ball:'フライ — レフト方向（三塁審が追う、二塁審が内野内）',bf:P.home,bt:P.lf,
+   moves:['打球を追いその場に留まる','三塁付近へ移動する','二塁方向へ走る','本塁方向へ走る'],
+   mto:[P.lf,P.u3,P.b2,P.hpl],cm:0,
+   preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁走者のタッグアップを確認し、三塁でのプレイに備える','二塁でのプレイに備える','本塁でのプレイに備える'],cp:0,
+   adv:'満塁で三塁審が追うとき、三塁審は打球を追い判定後その場に留まります。球審が三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  // S8 満塁 一塁審Goes Out→3Bの動き
+  {outs:0,randomOuts01:true,runners:['1','2','3'],ball:'フライ — ライト方向（一塁審が追う、二塁審が内野内）',bf:P.home,bt:P.rf,
+   moves:['タッグアップ確認位置へ移動する','タッグアップ確認位置へ移動する','外野方向へ追う','二塁方向へ走る'],
+   mto:[P.tagup3,P.hpl,P.rf,P.b2],cm:0,
+   preps:['三塁走者のタッグアップを確認し、三塁でのプレイに備える','三塁走者のタッグアップを確認してから本塁でのプレイに備える','打球の捕球・落球を確認してその場で判定する','二塁でのプレイに備えて二塁走者の動きを確認する'],cp:0,
+   adv:'満塁で一塁審がライトを追うとき、三塁審は三塁走者のタッグアップを確認し、三塁でのプレイに備えます。二塁審がステップバックしながら一・二塁走者のタッグアップ・触塁を確認します。'},
+
+  {outs:1,runners:['3'],fixedOuts:true,ball:'フライ — レフト線（三塁審が追う・1アウト）',bf:P.home,bt:P.lfline,
+ moves:['打球を追いその場に留まる','タッグアップ確認位置へ移動する','本塁方向へ走る','二塁方向へ走る'],
+ mto:[P.lfline,P.u3,P.hpl,P.b2],cm:0,
+ preps:['捕球・落球を判定し、プレイが落ち着くまでその場に留まる','三塁走者のタッグアップを確認後三塁でのプレイに備える','本塁でのプレイに備える','二塁でのプレイに備える'],cp:0,
+ adv:'0・1アウトでは三塁走者はタッグアップ後に本塁を狙います。三塁審は打球を追い判定後その場に留まります。球審が三塁走者のタッグアップを確認後、本塁でのプレイに備えます。'},
+  {outs:2,runners:['3'],fixedOuts:true,ball:'フライ — ライト線（一塁審が追う・2アウト）',bf:P.home,bt:P.rfline,
+ moves:['三塁付近へ移動する','本塁方向へ走る','ライト方向へ追う','二塁方向へ走る'],
+ mto:[P.u3,P.hpl,P.rfline,P.b2],cm:0,
+ preps:['三塁でのプレイに備える','本塁でのプレイに備える','打球の捕球・落球を判定','二塁でのプレイに備える'],cp:0,
+ adv:'2アウトでは走者三塁でもタッグアップは不要です。三塁審は0・1アウトのように離塁タイミングを確認する必要はなく、三塁でスタンバイしてプレイに備えます。'},
+],
+};
+
+
+// ====== アプリ状態 ======
+let pos='',qcount=0,score={ok:0,ng:0,tot:0},cur=null,tmr=null,step=1,selMove=-1;
+let queueAll=[],queueRemain=[],sessionLimit=0;
+
+// ====== フィールド描画 ======
+function drawField(svgId,opts){
+  const svg=document.getElementById(svgId);if(!svg)return;
+  const cx=CX,cy=CY,r=R;
+  const aid='ar_'+svgId;
+  const ACOLS=['#EF9F27','#5DCAA5','#ED93B1','#85B7EB'];
+  let h=`<defs>
+    <marker id="${aid}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    ${ACOLS.map((c,i)=>`<marker id="arr_${i}_${svgId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>`).join('')}
+    <!-- arr_r markers generated dynamically in choiceResult -->
+  </defs>`;
+  h+=`<rect width="300" height="220" fill="none"/>`;
+  // ---- フィールド描画 ----
+  // ファウルライン端点（本塁→一塁・三塁方向の延長、ファウルゾーン端）
+  const fLen=r*3.0;
+  const fl_rx=cx+fLen/Math.sqrt(2), fl_ry=cy-fLen/Math.sqrt(2); // 右翼線端
+  const fl_lx=cx-fLen/Math.sqrt(2), fl_ly=cy-fLen/Math.sqrt(2); // 左翼線端
+  // 外野全体（フェンス内）を塗る
+  h+=`<path d="M${fl_lx.toFixed(0)},${fl_ly.toFixed(0)} C130,-20 170,-20 ${fl_rx.toFixed(0)},${fl_ry.toFixed(0)} L${cx},${cy} Z" fill="#1e3d0f" stroke="none"/>`;
+  // 外野フェンス弧
+  h+=`<path d="M${fl_lx.toFixed(0)},${fl_ly.toFixed(0)} C130,-20 170,-20 ${fl_rx.toFixed(0)},${fl_ry.toFixed(0)}" fill="none" stroke="#3a7a1a" stroke-width="1.5"/>`;
+  // ファウルライン（本塁→左翼線端、本塁→右翼線端）
+  h+=`<line x1="${cx}" y1="${cy}" x2="${fl_lx.toFixed(0)}" y2="${fl_ly.toFixed(0)}" stroke="#3a7a1a" stroke-width="1"/>`;
+  h+=`<line x1="${cx}" y1="${cy}" x2="${fl_rx.toFixed(0)}" y2="${fl_ry.toFixed(0)}" stroke="#3a7a1a" stroke-width="1"/>`;
+  // 内野土（ダートエリア）：ダイヤモンドより少し広いポリゴン
+  const ie=r*0.22;
+  h+=`<polygon points="${cx},${cy-r*2-ie} ${cx+r+ie},${cy-r} ${cx+ie},${cy+ie} ${cx-ie},${cy+ie} ${cx-r-ie},${cy-r}" fill="#3d2a0a" stroke="none" fill-opacity="0.85"/>`;
+  // 内野芝（ダイヤモンド内の草）
+  h+=`<polygon points="${cx},${cy-r*2} ${cx+r},${cy-r} ${cx},${cy} ${cx-r},${cy-r}" fill="#1e3d0f" stroke="none"/>`;
+  // ベースライン
+  [[P.home,P.b1],[P.b1,P.b2],[P.b2,P.b3],[P.b3,P.home]].forEach(([a,b])=>{
+    h+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#8b6015" stroke-width="1"/>`;
+  });
+  h+=`<circle cx="${P.pit.x}" cy="${P.pit.y}" r="4" fill="#5c3d0a" stroke="#8b6015" stroke-width="0.8"/>`;
+  [['1',P.b1],['2',P.b2],['3',P.b3]].forEach(([lbl,bp])=>{
+    const runners=opts.runners||[];const on=runners.includes(lbl);
+    h+=`<rect x="${bp.x-7}" y="${bp.y-7}" width="14" height="14" rx="2" fill="${on?'#E24B4A':'#4a3a1a'}" stroke="${on?'#ff6b6b':'#8b6015'}" stroke-width="1.2"/>`;
+    if(on)h+=`<text x="${bp.x}" y="${bp.y+4}" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">走</text>`;
+  });
+  h+=`<polygon points="${P.home.x},${P.home.y-8} ${P.home.x+7},${P.home.y} ${P.home.x},${P.home.y+6} ${P.home.x-7},${P.home.y}" fill="#4a3a1a" stroke="#8b6015" stroke-width="1.2"/>`;
+  // アウトカウント（右下コーナーに赤丸で表示）
+  if(cur){
+    const outs=opts.outs!==undefined?opts.outs:0;
+    const ox=268,oy=208,or=7,og=18;
+    h+=`<text x="${ox-og}" y="${oy-or-3}" text-anchor="middle" font-size="9" fill="#888780">OUT</text>`;
+    for(let k=0;k<3;k++){
+      const filled=k<outs;
+      h+=`<circle cx="${ox+(k-1)*og}" cy="${oy}" r="${or}" fill="${filled?'#E24B4A':'#2a2826'}" stroke="${filled?'#ff6b6b':'#5f5e5a'}" stroke-width="1.5"/>`;
+    }
+  }
+  if(opts.bf&&opts.bt){
+    const dx=opts.bt.x-opts.bf.x,dy=opts.bt.y-opts.bf.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+    const ex=opts.bf.x+dx*(len-8)/len,ey=opts.bf.y+dy*(len-8)/len;
+    h+=`<line x1="${opts.bf.x}" y1="${opts.bf.y}" x2="${ex}" y2="${ey}" stroke="#E24B4A" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#${aid})"/>`;
+    h+=`<circle cx="${opts.bt.x}" cy="${opts.bt.y}" r="5" fill="#E24B4A" stroke="#ff4040" stroke-width="1"/>`;
+  }
+  if(opts.us){
+    h+=`<circle cx="${opts.us.x}" cy="${opts.us.y}" r="9" fill="#185FA5" stroke="#378ADD" stroke-width="1"/>`;
+    h+=`<text x="${opts.us.x}" y="${opts.us.y+3.5}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">${opts.ul||'U'}</text>`;
+  }
+  if(opts.um&&opts.us){
+    const us=opts.us,um=opts.um;
+    const dx=um.x-us.x,dy=um.y-us.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+    if(len>12){
+      const ex=us.x+dx*(len-11)/len,ey=us.y+dy*(len-11)/len;
+      h+=`<line x1="${us.x}" y1="${us.y}" x2="${ex}" y2="${ey}" stroke="#97C459" stroke-width="2.5" marker-end="url(#${aid})"/>`;
+    }
+    h+=`<circle cx="${um.x}" cy="${um.y}" r="9" fill="#27500A" stroke="#97C459" stroke-width="1"/>`;
+    h+=`<text x="${um.x}" y="${um.y+3.5}" text-anchor="middle" font-size="9" font-weight="700" fill="#C0DD97">${opts.ul||'U'}</text>`;
+  }
+  if(opts.choices&&opts.us&&!opts.um){
+    const COLORS=['#EF9F27','#5DCAA5','#ED93B1','#85B7EB'];
+    const STROKES=['#BA7517','#0F6E56','#993556','#185FA5'];
+    const NUMS=['①','②','③','④'];
+    // パス1: 矢印ラインとヒットエリアを先に全部描画
+    opts.choices.forEach((pt,i)=>{
+      const us=opts.us;
+      const dx=pt.x-us.x,dy=pt.y-us.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+      const col=COLORS[i],str=STROKES[i];
+      h+=`<circle cx="${pt.x}" cy="${pt.y}" r="22" fill="transparent" style="cursor:pointer" onclick="fclick(${i})"/>`;
+      if(len>14){
+        const ex=us.x+dx*(len-13)/len,ey=us.y+dy*(len-13)/len;
+        h+=`<line x1="${us.x}" y1="${us.y}" x2="${ex}" y2="${ey}" stroke="${col}" stroke-width="2" marker-end="url(#arr_${i}_${svgId})" style="cursor:pointer" onclick="fclick(${i})"/>`;
+      }
+    });
+    // パス2: 番号ラベルを最前面に全部描画
+    opts.choices.forEach((pt,i)=>{
+      const us=opts.us;
+      const dx=pt.x-us.x,dy=pt.y-us.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+      const col=COLORS[i],str=STROKES[i];
+      if(len>14){
+        const mid_x=us.x+dx*0.5,mid_y=us.y+dy*0.5;
+        h+=`<circle cx="${mid_x}" cy="${mid_y}" r="10" fill="${col}" stroke="${str}" stroke-width="1" style="cursor:pointer" onclick="fclick(${i})"/>`;
+        h+=`<text x="${mid_x}" y="${mid_y+3.5}" text-anchor="middle" font-size="10" font-weight="900" fill="#1a1918" style="cursor:pointer" onclick="fclick(${i})">${i+1}</text>`;
+      } else {
+        h+=`<circle cx="${pt.x}" cy="${pt.y}" r="10" fill="${col}" stroke="${str}" stroke-width="1.5" style="cursor:pointer" onclick="fclick(${i})"/>`;
+        h+=`<text x="${pt.x}" y="${pt.y+3.5}" text-anchor="middle" font-size="10" font-weight="900" fill="#1a1918" style="cursor:pointer" onclick="fclick(${i})">${i+1}</text>`;
+      }
+    });
+  }
+  if(opts.choiceResult){
+    // 正解・不正解表示後の色付き矢印
+    const COLORS=['#EF9F27','#5DCAA5','#ED93B1','#85B7EB'];
+    opts.choiceResult.forEach(({pt,state},i)=>{
+      const us=opts.us;
+      const col=state==='correct'?'#97C459':state==='wrong'?'#E24B4A':'#3a3836';
+      const dx=pt.x-us.x,dy=pt.y-us.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+      if(len>14&&state!=='off'){
+        const ex=us.x+dx*(len-13)/len,ey=us.y+dy*(len-13)/len;
+        // 動的マーカー（色をstateに合わせて生成）
+        const mid=`arr_rd_${i}_${svgId}`;
+        h+=`<defs><marker id="${mid}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="${col}" stroke-width="1.8"/></marker></defs>`;
+        h+=`<line x1="${us.x}" y1="${us.y}" x2="${ex}" y2="${ey}" stroke="${col}" stroke-width="2" marker-end="url(#${mid})"/>`;
+      }
+      if(state!=='off'){
+        h+=`<circle cx="${pt.x}" cy="${pt.y}" r="10" fill="${col}" stroke="${col}" stroke-width="1"/>`;
+        h+=`<text x="${pt.x}" y="${pt.y+3.5}" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">${i+1}</text>`;
+      }
+    });
+  }
+  svg.innerHTML=h;
+}
+
+function updateScore(){
+  document.getElementById('sc-ok').textContent=score.ok;
+  document.getElementById('sc-ng').textContent=score.ng;
+  document.getElementById('sc-tot').textContent=score.tot;
+}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function setPos(p){
+  pos=p;
+  document.querySelectorAll('.pos-btn').forEach(el=>el.classList.remove('selected'));
+  const el=document.getElementById('popt-'+p);
+  if(el)el.classList.add('selected');
+  updateStartBtn();
+}
+function setQcount(n){
+  qcount=n;
+  document.querySelectorAll('.qcount-opt').forEach(el=>el.classList.remove('selected'));
+  const el=document.getElementById('qopt-'+n);
+  if(el)el.classList.add('selected');
+  updateStartBtn();
+}
+function updateStartBtn(){
+  const btn=document.getElementById('btn-start-main');
+  if(btn) btn.disabled=!(pos&&qcount!==undefined&&qcount!=='');
+}
+function startSession(){
+  if(!pos) return;
+  score={ok:0,ng:0,tot:0};updateScore();
+  // キューを作る
+  const all=QS[pos];
+  // シャッフル
+  queueAll=shuffle([...all]);
+  sessionLimit=qcount===0?queueAll.length:qcount;
+  queueRemain=queueAll.slice(0,sessionLimit);
+  document.getElementById('rdy-badge').textContent=pos;
+  pickQFromQueue();
+  show('s-ready');
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+
+function pickQFromQueue(){
+  if(queueRemain.length===0){
+    cur=null;
+    showSessionEnd();
+    return;
+  }
+  cur=queueRemain.shift();
+  // randomOuts:true の問題はアウトカウントをランダムに付与
+  if(cur.randomOuts){
+    cur=Object.assign({},cur,{outs:Math.floor(Math.random()*3)});
+  }
+  // randomOuts01:true の問題は0か1アウトのみ（タッグアップあり前提）
+  if(cur.randomOuts01){
+    cur=Object.assign({},cur,{outs:Math.floor(Math.random()*2)});
+  }
+  // 選択肢をシャッフルして正解インデックスを更新
+  const idx=Array.from({length:cur.moves.length},(_,i)=>i);
+  shuffle(idx);
+  cur._movesShuf=idx.map(i=>cur.moves[i]);
+  cur._mtoShuf=idx.map(i=>cur.mto[i]);
+  cur._cmShuf=idx.indexOf(cur.cm);
+  const pidx=Array.from({length:cur.preps.length},(_,i)=>i);
+  shuffle(pidx);
+  cur._prepsShuf=pidx.map(i=>cur.preps[i]);
+  cur._cpShuf=pidx.indexOf(cur.cp);
+
+  const done=sessionLimit-(queueRemain.length+1)+1; // 今何問目
+  document.getElementById('rdy-sit').textContent=cur.outs+'アウト・走者'+rTxt(cur.runners);
+  const outNum=document.getElementById('rdy-out-num');
+  if(outNum) outNum.textContent=cur.outs;
+  document.getElementById('rdy-runner').textContent=rTxt(cur.runners);
+  const prog=document.getElementById('rdy-progress');
+  if(prog) prog.textContent=(sessionLimit-queueRemain.length)+'/'+sessionLimit;
+  const upos=getUmpPos(pos,cur.runners);
+  setTimeout(()=>drawField('svg-ready',{us:upos,ul:US[pos],runners:cur.runners,outs:cur.outs}),0);
+}
+function showSessionEnd(){
+  const pct=score.tot>0?Math.round(score.ok/score.tot*100):0;
+  const emoji=pct>=80?'◎':pct>=60?'○':'△';
+  const col=pct>=80?'#97C459':pct>=60?'#EF9F27':'#E24B4A';
+  const el=id=>document.getElementById(id);
+  if(el('end-icon')){el('end-icon').textContent=emoji;el('end-icon').style.color=col;}
+  if(el('end-title')) el('end-title').textContent='セッション終了！';
+  if(el('end-score')) el('end-score').textContent=`正解 ${score.ok} / ${score.tot} 問`;
+  if(el('end-pct'))   el('end-pct').textContent=`正解率 ${pct}%`;
+  if(el('end-pos'))   el('end-pos').textContent=`${pos} ・ ${sessionLimit}問モード`;
+  // 成績を保存
+  saveHistory(pos, score.ok, score.tot, pct);
+  show('s-end');
+}
+// ===== 成績保存 =====
+function saveHistory(position, ok, tot, pct){
+  try{
+    const key='umpire_hist';
+    const hist=JSON.parse(localStorage.getItem(key)||'[]');
+    const now=new Date();
+    const dateStr=`${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+    hist.unshift({pos:position,ok,tot,pct,date:dateStr});
+    if(hist.length>30) hist.length=30; // 最大30件保持
+    localStorage.setItem(key,JSON.stringify(hist));
+  }catch(e){}
+}
+// ===== 成績履歴表示 =====
+let histFrom='s-select';
+function openHist(from){histFrom=from||'s-select';show('s-hist');showHist();}
+function showHist(){
+  const body=document.getElementById('hist-body');
+  if(!body) return;
+  body.innerHTML='';
+  try{
+    const hist=JSON.parse(localStorage.getItem('umpire_hist')||'[]');
+    if(hist.length===0){
+      body.innerHTML='<div class="hist-empty">まだ記録がありません<br>クイズを完了すると記録されます</div>';
+    } else {
+      // クリアボタン
+      const clr=document.createElement('button');
+      clr.className='hist-clear-btn';clr.textContent='履歴を削除';
+      clr.onclick=()=>{localStorage.removeItem('umpire_hist');showHist();};
+      body.appendChild(clr);
+      hist.forEach(r=>{
+        const col=r.pct>=80?'#97C459':r.pct>=60?'#EF9F27':'#E24B4A';
+        const card=document.createElement('div');card.className='hist-card';
+        card.innerHTML=`<div class="hist-pos">${r.pos}</div><div class="hist-info"><div class="hist-score">${r.ok}<span>/ ${r.tot}問</span></div><div class="hist-date">${r.date}</div></div><div class="hist-pct" style="color:${col}">${r.pct}%</div>`;
+        body.appendChild(card);
+      });
+    }
+  }catch(e){
+    body.innerHTML='<div class="hist-empty">データを読み込めませんでした</div>';
+  }
+}
+// ===== シェア機能 =====
+function clearHistory(){
+  localStorage.removeItem('umpire_hist');
+  showHist();
+}
+
+function getShareText(){
+  const pct=score.tot>0?Math.round(score.ok/score.tot*100):0;
+  const emoji=pct>=80?'◎':pct>=60?'○':'△';
+  return `${emoji} 少年野球審判メカニクスクイズ
+【${pos}】${score.ok}/${score.tot}問正解（${pct}%）
+#少年野球 #審判 #メカニクス`;
+}
+function shareX(){
+  const url=encodeURIComponent(location.href);
+  const txt=encodeURIComponent(getShareText());
+  window.open(`https://twitter.com/intent/tweet?text=${txt}&url=${url}`,'_blank');
+}
+function shareLine(){
+  const txt=encodeURIComponent(getShareText()+' '+location.href);
+  window.open('https://social-plugins.line.me/lineit/share?url='+txt,'_blank');
+}
+function shareCopy(){
+  const txt=getShareText()+' '+location.href;
+  navigator.clipboard.writeText(txt).then(()=>alert('コピーしました！')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('コピーしました！');
+  });
+}
+function replaySession(){
+  score={ok:0,ng:0,tot:0};updateScore();
+  startSession();
+}
+
+function startQ(){
+  step=1;selMove=-1;
+  const upos=getUmpPos(pos,cur.runners);
+  document.getElementById('q-pos-badge').textContent=pos;
+  document.getElementById('q-sit-lbl').textContent=cur.outs+'アウト・走者'+rTxt(cur.runners);
+
+  // フェーズ1: 打球のみ表示
+  document.getElementById('phase-ball').style.display='flex';
+  document.getElementById('step-move').style.display='none';
+  document.getElementById('step-prep').style.display='none';
+  document.getElementById('ball-alert-txt').textContent=cur.ball;
+  // 打球のみ（選択肢なし）でフィールドを描画
+  setTimeout(()=>drawField('svg-q-ball',{bf:cur.bf,bt:cur.bt,us:upos,ul:US[pos],runners:cur.runners,outs:cur.outs}),0);
+  show('s-question');
+
+  // 2秒後にフェーズ2: 選択肢表示 + タイマー開始
+  setTimeout(()=>{
+    document.getElementById('phase-ball').style.display='none';
+    document.getElementById('step-move').style.display='flex';
+    setTimeout(()=>drawField('svg-q',{bf:cur.bf,bt:cur.bt,us:upos,ul:US[pos],choices:cur._mtoShuf,runners:cur.runners,outs:cur.outs}),0);
+    startTimer(7,()=>fclick(-1));
+  },2000);
+}
+
+function fclick(idx){
+  if(step!==1)return;
+  clearInterval(tmr);selMove=idx;
+  document.getElementById('phase-ball').style.display='none';
+  const upos=getUmpPos(pos,cur.runners);
+  const choiceResult=cur._mtoShuf.map((pt,i)=>({
+    pt,
+    state: i===cur._cmShuf?'correct': i===idx&&idx!==cur._cmShuf?'wrong':'off'
+  }));
+  setTimeout(()=>drawField('svg-q',{bf:cur.bf,bt:cur.bt,us:upos,ul:US[pos],choiceResult,runners:cur.runners,outs:cur.outs}),0);
+  setTimeout(showStep2,900);
+}
+
+function showStep2(){
+  step=2;
+  document.getElementById('step-move').style.display='none';
+  document.getElementById('step-prep').style.display='';
+  const po=document.getElementById('prep-opts');po.innerHTML='';
+  cur._prepsShuf.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';b.textContent=(i+1)+'. '+p;b.id='pb'+i;
+    b.onclick=()=>pclick(i);
+    po.appendChild(b);
+  });
+  startTimer(8,()=>pclick(-1));
+}
+
+function pclick(idx){
+  if(step!==2)return;
+  clearInterval(tmr);
+  cur._yourPrep=idx;  // ユーザーのprep選択を記録
+  cur._prepsShuf.forEach((_,i)=>{
+    const b=document.getElementById('pb'+i);if(!b)return;
+    if(i===cur._cpShuf)b.className='opt-btn correct';
+    else if(i===idx&&idx!==cur._cpShuf)b.className='opt-btn wrong';
+    else b.className='opt-btn off';
+  });
+  const mo=selMove===cur._cmShuf,po=idx===cur._cpShuf;
+  score.tot++;if(mo&&po)score.ok++;else score.ng++;
+  updateScore();
+  setTimeout(()=>showResult(mo,po),650);
+}
+
+function showResult(mo,po){
+  const ok=mo&&po;
+  const upos=getUmpPos(pos,cur.runners);
+  document.getElementById('res-ico').textContent=ok?'○':'✗';
+  document.getElementById('res-ico').style.color=ok?'#97C459':'#E24B4A';
+  document.getElementById('res-title').textContent=ok?'正解！ナイスジャッジ！':(mo||po)?'惜しい！':'不正解';
+  let d='';if(!mo)d+='移動先が違います。';if(!po)d+='備えるプレイが違います。';if(ok)d='動きも備えも完璧です！';
+  document.getElementById('res-det').textContent=d;
+  document.getElementById('res-adv').textContent=cur.adv;
+
+  // 選択肢レビュー（moves）
+  const moveEl=document.getElementById('res-move-opts');
+  if(moveEl){
+    moveEl.innerHTML='';
+    cur._movesShuf.forEach((m,i)=>{
+      const isCorrect=(i===cur._cmShuf);
+      const isYours=(i===selMove);
+      const div=document.createElement('div');
+      let cls='rev-opt ';
+      let mark='';
+      if(isCorrect && isYours){cls+='rev-correct';mark='✓ 正解・回答';}
+      else if(isCorrect){cls+='rev-correct';mark='◀ 正解';}
+      else if(isYours){cls+='rev-wrong';mark='◀ あなた';}
+      else{cls+='rev-normal';mark='';}
+      div.className=cls;
+      const tag=mark?`<span class="rev-opt-tag">${mark}</span>`:'';
+      div.innerHTML=`<div class="rev-opt-left"><span class="rev-opt-num">${i+1}.</span><span class="rev-opt-txt">${m}</span></div>${tag}`;
+      moveEl.appendChild(div);
+    });
+  }
+
+  // 選択肢レビュー（preps）
+  const prepEl=document.getElementById('res-prep-opts');
+  if(prepEl){
+    prepEl.innerHTML='';
+    cur._prepsShuf.forEach((p,i)=>{
+      const isCorrect=(i===cur._cpShuf);
+      // selPrepを保存していないので、pclickで記録した値を使う
+      const isYours=(i===cur._yourPrep);
+      const div=document.createElement('div');
+      let cls='rev-opt ';
+      let mark='';
+      if(isCorrect && isYours){cls+='rev-correct';mark='✓ 正解・回答';}
+      else if(isCorrect){cls+='rev-correct';mark='◀ 正解';}
+      else if(isYours){cls+='rev-wrong';mark='◀ あなた';}
+      else{cls+='rev-normal';mark='';}
+      div.className=cls;
+      const tag2=mark?`<span class="rev-opt-tag">${mark}</span>`:'';
+      div.innerHTML=`<div class="rev-opt-left"><span class="rev-opt-num">${i+1}.</span><span class="rev-opt-txt">${p}</span></div>${tag2}`;
+      prepEl.appendChild(div);
+    });
+  }
+  setTimeout(()=>drawField('svg-result',{bf:cur.bf,bt:cur.bt,us:upos,ul:US[pos],um:cur._mtoShuf[cur._cmShuf],runners:cur.runners,outs:cur.outs}),0);
+  // ボタンを通常の「次の問題へ」に戻す
+  const nb=document.getElementById('res-btn-next');
+  const hb=document.getElementById('res-btn-home');
+  if(nb){nb.textContent='次の問題へ ▶';nb.onclick=nextQ;}
+  if(hb){hb.textContent='ポジション変更';hb.onclick=goSelect;hb.className='btn btn-change';}
+  show('s-result');
+}
+
+function startTimer(sec,cb){
+  clearInterval(tmr);
+  const fill=document.getElementById('tfill');if(!fill)return;
+  fill.style.width='100%';fill.style.background='#185FA5';
+  let left=sec*10,total=sec*10;
+  tmr=setInterval(()=>{
+    left--;
+    const pct=(left/total)*100;
+    fill.style.width=pct+'%';
+    if(pct<40)fill.style.background='#E24B4A';
+    else if(pct<70)fill.style.background='#EF9F27';
+    if(left<=0){clearInterval(tmr);cb();}
+  },100);
+}
+
+function nextQ(){pickQFromQueue();if(cur)show('s-ready');}
+function goSelect(){clearInterval(tmr);queueRemain=[];cur=null;show('s-select')}
+</script>
+</body>
+</html>
