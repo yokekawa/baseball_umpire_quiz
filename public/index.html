@@ -224,6 +224,10 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .mock-adv{background:#0C447C;border-radius:8px;padding:10px}
 .howto-tip{background:#2a2826;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:#a0a09a;line-height:1.6;margin-top:8px}
 .howto-source{font-size:11px;color:#5f5e5a;text-align:center;padding:8px 0 4px;border-top:1px solid #2a2826;margin-top:8px}
+.app-footer{flex-shrink:0;background:#111;padding:10px 16px;text-align:center;border-top:1px solid #2a2826;display:none}
+.app-footer.visible{display:block}
+.app-footer a{color:#888780;font-size:11px;margin:0 8px;text-decoration:none}
+.app-footer a:hover{color:#f0efe8}
 </style>
 <script type="application/ld+json">
 {
@@ -614,6 +618,10 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   <div class="howto-body" id="hist-body"></div>
 </div>
 
+</div>
+<div class="app-footer visible">
+  <a href="/about.html">このアプリについて</a>
+  <a href="/mechanics.html">審判メカニクス基礎</a>
 </div>
 <script>
 // ====== 座標定義 ======
