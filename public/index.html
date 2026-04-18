@@ -130,6 +130,12 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .qcount-opt{padding:12px 8px;border:1px solid #3a3836;border-radius:10px;background:#2a2826;color:#888780;font-size:15px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.12s}
 .qcount-opt:hover{background:#33302e;border-color:#5f5e5a;color:#f0efe8}
 .qcount-opt.selected{background:#185FA5;border-color:#185FA5;color:#fff}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.diff-opt{padding:10px 6px;border:1px solid #3a3836;border-radius:10px;background:#2a2826;color:#888780;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.12s;line-height:1.4}
+.diff-opt:hover{background:#33302e;border-color:#5f5e5a;color:#f0efe8}
+.diff-opt.selected{background:#185FA5;border-color:#185FA5;color:#fff}
+.diff-opt .diff-name{font-size:14px;font-weight:800;margin-bottom:2px}
+.diff-opt .diff-desc{font-size:10px;opacity:0.8}
 .pos-opt.selected{background:#185FA5;border-color:#185FA5;color:#fff}
 .pos-opt.selected .pos-desc{color:#B5D4F4}
 .btn-start-main{width:100%;padding:15px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s;background:#185FA5;color:#fff;margin-top:2px}
@@ -307,6 +313,21 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
       <div class="qcount-opt" id="qopt-5" onclick="setQcount(5)">5問</div>
       <div class="qcount-opt" id="qopt-10" onclick="setQcount(10)">10問</div>
       <div class="qcount-opt" id="qopt-0" onclick="setQcount(0)">全問</div>
+    </div>
+    <div class="sel-section-lbl" style="margin-top:4px">難易度</div>
+    <div class="diff-grid">
+      <div class="diff-opt" id="dopt-easy" onclick="setDiff('easy')">
+        <div class="diff-name">🟢 かんたん</div>
+        <div class="diff-desc">時間無制限</div>
+      </div>
+      <div class="diff-opt" id="dopt-normal" onclick="setDiff('normal')">
+        <div class="diff-name">🟡 ふつう</div>
+        <div class="diff-desc">各15秒</div>
+      </div>
+      <div class="diff-opt" id="dopt-hard" onclick="setDiff('hard')">
+        <div class="diff-name">🔴 むずかしい</div>
+        <div class="diff-desc">各7秒</div>
+      </div>
     </div>
     <div style="display:flex;gap:8px;margin-top:2px">
       <button class="btn-start-main" id="btn-start-main" onclick="startSession()" disabled style="flex:1;margin-top:0">スタート ▶</button>
@@ -1157,7 +1178,7 @@ const QS={
 
 
 // ====== アプリ状態 ======
-let pos='',qcount=0,score={ok:0,ng:0,tot:0},cur=null,tmr=null,step=1,selMove=-1;
+let pos='',qcount=0,diff='',score={ok:0,ng:0,tot:0},cur=null,tmr=null,step=1,selMove=-1;
 let queueAll=[],queueRemain=[],sessionLimit=0;
 
 // ====== フィールド描画 ======
@@ -1304,9 +1325,16 @@ function setQcount(n){
   if(el)el.classList.add('selected');
   updateStartBtn();
 }
+function setDiff(d){
+  diff=d;
+  document.querySelectorAll('.diff-opt').forEach(el=>el.classList.remove('selected'));
+  const el=document.getElementById('dopt-'+d);
+  if(el)el.classList.add('selected');
+  updateStartBtn();
+}
 function updateStartBtn(){
   const btn=document.getElementById('btn-start-main');
-  if(btn) btn.disabled=!(pos&&qcount!==undefined&&qcount!=='');
+  if(btn) btn.disabled=!(pos&&qcount!==undefined&&qcount!==''&&diff!=='');
 }
 function startSession(){
   if(!pos) return;
@@ -1470,7 +1498,9 @@ function startQ(){
     document.getElementById('phase-ball').style.display='none';
     document.getElementById('step-move').style.display='flex';
     setTimeout(()=>drawField('svg-q',{bf:cur.bf,bt:cur.bt,us:upos,ul:US[pos],choices:cur._mtoShuf,runners:cur.runners,outs:cur.outs}),0);
-    startTimer(7,()=>fclick(-1));
+    const tMove=diff==='easy'?0:diff==='normal'?15:7;
+    if(tMove>0) startTimer(tMove,()=>fclick(-1));
+    else document.getElementById('tfill').style.width='0%'; // 無制限はバー非表示
   },2000);
 }
 
@@ -1498,7 +1528,9 @@ function showStep2(){
     b.onclick=()=>pclick(i);
     po.appendChild(b);
   });
-  startTimer(8,()=>pclick(-1));
+  const tPrep=diff==='easy'?0:diff==='normal'?15:8;
+  if(tPrep>0) startTimer(tPrep,()=>pclick(-1));
+  else document.getElementById('tfill').style.width='0%'; // 無制限はバー非表示
 }
 
 function pclick(idx){
