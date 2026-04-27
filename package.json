@@ -2,7 +2,7 @@
   "name": "baseball-umpire-quiz",
   "version": "1.0.0",
   "private": true,
-  "description": "少年野球審判メカニクスクイズ",
+  "description": "審判メカニクスクイズ",
   "scripts": {
     "cap:sync": "cap sync",
     "cap:open:android": "cap open android",
