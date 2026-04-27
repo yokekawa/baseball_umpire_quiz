@@ -1,0 +1,18 @@
+{
+  "name": "baseball-umpire-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "少年野球審判メカニクスクイズ",
+  "scripts": {
+    "cap:sync": "cap sync",
+    "cap:open:android": "cap open android",
+    "cap:run:android": "cap run android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/core": "^8.3.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.3.1"
+  }
+}

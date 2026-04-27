@@ -1,0 +1,8 @@
+{
+  "appId": "com.yokekawa.baseballumpirequiz",
+  "appName": "審判メカニクスクイズ",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}
