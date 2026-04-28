@@ -1644,9 +1644,8 @@ function goSelect(){clearInterval(tmr);queueRemain=[];cur=null;show('s-select')}
 //    Play Storeに公開する直前にfalseに切り替えてリリースビルドを作る。
 const ADMOB_TESTING = true;
 const ADMOB_BANNER_ID = 'ca-app-pub-4248382033901204/6170675768';
-// インタースティシャル広告ユニットID。AdMobで作成後、ここを本番IDに差し替える。
-// 暫定はGoogle公式テストID（テスト広告固定で安全）。
-const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-3940256099942544/1033173712';
+// インタースティシャル広告ユニットID（本番）
+const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-4248382033901204/8622413430';
 
 let interstitialReady = false;
 function _admob(){
