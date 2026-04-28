@@ -233,6 +233,8 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .app-footer{position:fixed;bottom:0;left:0;right:0;background:rgba(17,17,17,0.95);padding:7px 16px;text-align:center;border-top:1px solid #2a2826;z-index:100}
 .app-footer a{color:#888780;font-size:11px;margin:0 10px;text-decoration:none}
 .app-footer a:hover{color:#f0efe8}
+body.with-admob-banner .app-footer{bottom:60px}
+body.with-admob-banner{padding-bottom:60px}
 </style>
 <script type="application/ld+json">
 {
@@ -1633,6 +1635,31 @@ function startTimer(sec,cb){
 
 function nextQ(){pickQFromQueue();if(cur)show('s-ready');}
 function goSelect(){clearInterval(tmr);queueRemain=[];cur=null;show('s-select')}
+
+// ====== AdMob（Androidネイティブアプリのみ） ======
+// Web版はAdSenseを継続使用。本番公開前にテスト用IDを実IDに差し替えること。
+async function initAdMob(){
+  if(!window.Capacitor || !window.Capacitor.isNativePlatform || !window.Capacitor.isNativePlatform()) return;
+  const AdMob = window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
+  if(!AdMob) return;
+  try{
+    await AdMob.initialize({ initializeForTesting: true });
+    // バナー（テスト用ID） — 本番では ca-app-pub-XXXX/YYYY 形式の自分のIDに差し替え
+    await AdMob.showBanner({
+      adId: 'ca-app-pub-3940256099942544/6300978111',
+      adSize: 'ADAPTIVE_BANNER',
+      position: 'BOTTOM_CENTER',
+      margin: 0,
+      isTesting: true
+    });
+    document.body.classList.add('with-admob-banner');
+  }catch(e){ console.warn('AdMob init failed', e); }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', initAdMob);
+}else{
+  initAdMob();
+}
 </script>
 </body>
 </html>

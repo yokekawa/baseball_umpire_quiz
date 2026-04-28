@@ -9,6 +9,7 @@
     "cap:run:android": "cap run android"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^8.0.0",
     "@capacitor/android": "^8.3.1",
     "@capacitor/core": "^8.3.1"
   },
