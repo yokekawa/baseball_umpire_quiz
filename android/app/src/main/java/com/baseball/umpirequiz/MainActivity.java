@@ -1,4 +1,4 @@
-package com.yokekawa.baseballumpirequiz;
+package com.baseball.umpirequiz;
 
 import com.getcapacitor.BridgeActivity;
 

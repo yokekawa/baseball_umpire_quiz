@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.yokekawa.baseballumpirequiz"
+    namespace = "com.baseball.umpirequiz"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.yokekawa.baseballumpirequiz"
+        applicationId "com.baseball.umpirequiz"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
