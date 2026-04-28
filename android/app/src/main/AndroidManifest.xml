@@ -34,10 +34,10 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
 
-        <!-- AdMob App ID（テスト用 ID。本番公開時に AdMob で発行された ID へ差し替えること） -->
+        <!-- AdMob App ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-4248382033901204~2826237838" />
     </application>
 
     <!-- Permissions -->

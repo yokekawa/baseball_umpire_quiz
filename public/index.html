@@ -1637,20 +1637,23 @@ function nextQ(){pickQFromQueue();if(cur)show('s-ready');}
 function goSelect(){clearInterval(tmr);queueRemain=[];cur=null;show('s-select')}
 
 // ====== AdMob（Androidネイティブアプリのみ） ======
-// Web版はAdSenseを継続使用。本番公開前にテスト用IDを実IDに差し替えること。
+// Web版はAdSenseを継続使用。
+// ⚠️ 自分の広告を自分でクリックするとAdMobアカウント停止リスクあり。
+//    開発・テスト中はADMOB_TESTING=trueのまま（テスト広告が表示されます）。
+//    Play Storeに公開する直前にfalseに切り替えてリリースビルドを作る。
+const ADMOB_TESTING = true;
 async function initAdMob(){
   if(!window.Capacitor || !window.Capacitor.isNativePlatform || !window.Capacitor.isNativePlatform()) return;
   const AdMob = window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
   if(!AdMob) return;
   try{
-    await AdMob.initialize({ initializeForTesting: true });
-    // バナー（テスト用ID） — 本番では ca-app-pub-XXXX/YYYY 形式の自分のIDに差し替え
+    await AdMob.initialize({ initializeForTesting: ADMOB_TESTING });
     await AdMob.showBanner({
-      adId: 'ca-app-pub-3940256099942544/6300978111',
+      adId: 'ca-app-pub-4248382033901204/6170675768',
       adSize: 'ADAPTIVE_BANNER',
       position: 'BOTTOM_CENTER',
       margin: 0,
-      isTesting: true
+      isTesting: ADMOB_TESTING
     });
     document.body.classList.add('with-admob-banner');
   }catch(e){ console.warn('AdMob init failed', e); }
