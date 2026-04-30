@@ -704,11 +704,12 @@ function getUmpPos(position, runners){
   if(position==='二塁審'){
     // ハンドブック取り決め事項1:
     // 無走者 → 2塁ベース後方（外野寄り）= u2out
-    // 走者3塁のみ → 遊撃手の後方 = u2ss
+    // 走者3塁のみ → 二塁にランナー無しのため外側ポジション = u2out
+    //   （タッグアップは三塁審が確認、二塁審は外野打球を追う責任あり）
     // 走者1塁/2塁/1-2塁/1-3塁/2-3塁/満塁 → 内野内 = u2
     const r = runners||[];
-    if(r.length===0) return P.u2out;            // 無走者: 2塁後方
-    if(r.length===1 && r[0]==='3') return P.u2ss; // 走者3塁のみ: 遊撃手後方
+    if(r.length===0) return P.u2out;             // 無走者: 2塁後方
+    if(r.length===1 && r[0]==='3') return P.u2out; // 走者3塁のみ: 同じく外側
     return P.u2;                                 // それ以外: 内野内
   }
   return P.u2;
