@@ -19,7 +19,11 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#1a1918;color:#f0efe8}
-.app{height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918;padding-bottom:34px}
+:root{--ad-h:0px}
+body.with-admob-banner{--ad-h:60px}
+@media (min-width:600px){body.with-admob-banner{--ad-h:90px}}
+@media (min-width:900px){body.with-admob-banner{--ad-h:100px}}
+.app{height:calc(100dvh - var(--ad-h));display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918;padding-bottom:34px}
 .screen{display:none;flex-direction:column;height:100%;overflow:hidden}
 .screen.active{display:flex}
 
@@ -233,8 +237,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .app-footer{position:fixed;bottom:0;left:0;right:0;background:rgba(17,17,17,0.95);padding:7px 16px;text-align:center;border-top:1px solid #2a2826;z-index:100}
 .app-footer a{color:#888780;font-size:11px;margin:0 10px;text-decoration:none}
 .app-footer a:hover{color:#f0efe8}
-body.with-admob-banner .app-footer{bottom:60px}
-body.with-admob-banner{padding-bottom:60px}
+body.with-admob-banner .app-footer{bottom:var(--ad-h)}
 </style>
 <script type="application/ld+json">
 {
@@ -1680,6 +1683,16 @@ async function initAdMob(){
   const AdMob = _admob(); if(!AdMob) return;
   try{
     await AdMob.initialize({ initializeForTesting: ADMOB_TESTING });
+    // バナーの実寸が来たら CSS 変数 --ad-h に反映してレイアウトを調整
+    try{
+      const setAdH = (info)=>{
+        const h = info && (info.height || info.size && info.size.height);
+        if(h && Number.isFinite(h)) document.documentElement.style.setProperty('--ad-h', h+'px');
+      };
+      AdMob.addListener('bannerAdSize', setAdH);
+      AdMob.addListener('adSizeChanged', setAdH);
+      AdMob.addListener('bannerSize', setAdH);
+    }catch(_){/* イベント未対応バージョンは CSS 側のフォールバックで対応 */}
     await AdMob.showBanner({
       adId: ADMOB_BANNER_ID,
       adSize: 'ADAPTIVE_BANNER',
