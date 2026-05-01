@@ -240,6 +240,21 @@ body.with-admob-banner{--ad-h:60px}
 .app-footer a{color:#888780;font-size:11px;margin:0 10px;text-decoration:none}
 .app-footer a:hover{color:#f0efe8}
 body.with-admob-banner .app-footer{bottom:var(--ad-h)}
+/* 短い viewport（タブレット横向き時のレターボックス表示等）でフィールドと選択肢のバランスを改善
+   通常の縦向き（高さ700px以上）には影響しない */
+@media (max-height:700px){
+  #s-select .pos-field-wrap{max-width:max(220px, calc((100dvh - var(--ad-h,0px) - 320px) * 1.36))}
+  #s-select .sel-header{padding:10px 16px 4px}
+  #s-select .sel-title{font-size:18px}
+  #s-select .sel-section-lbl{padding:2px 0 3px}
+  #s-select .qcount-grid{margin-bottom:8px}
+  #s-select .qcount-opt{padding:8px 6px;font-size:14px}
+  #s-select .diff-grid{margin-bottom:8px}
+  #s-select .diff-opt{padding:7px 4px}
+  #s-select .diff-opt .diff-name{font-size:13px}
+  #s-select .diff-opt .diff-desc{font-size:10px}
+  #s-select .btn-start-main{padding:12px;font-size:15px}
+}
 </style>
 <script type="application/ld+json">
 {
