@@ -23,9 +23,9 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 body.with-admob-banner{--ad-h:60px}
 @media (min-width:600px){body.with-admob-banner{--ad-h:90px}}
 @media (min-width:900px){body.with-admob-banner{--ad-h:100px}}
-.app{height:calc(100dvh - var(--ad-h));display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918;padding-bottom:34px}
-@media (min-width:600px){.app{max-width:600px}}
-@media (min-width:900px){.app{max-width:720px}}
+.app{height:calc(100dvh - var(--ad-h) - 30px);display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918;padding-bottom:34px}
+@media (min-width:600px) and (orientation:portrait){.app{max-width:600px}}
+@media (min-width:900px) and (orientation:portrait){.app{max-width:720px}}
 .screen{display:none;flex-direction:column;height:100%;overflow:hidden}
 .screen.active{display:flex}
 
@@ -120,7 +120,7 @@ body.with-admob-banner{--ad-h:60px}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .sel-section-lbl{font-size:11px;color:#888780;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:2px 0 6px}
 /* グラウンド+ひし形ポジション選択 */
-.pos-field-wrap{position:relative;width:100%;max-width:max(180px, calc((100dvh - var(--ad-h,0px) - 400px) * 1.36));aspect-ratio:300/220;margin:0 auto 10px;border-radius:12px;overflow:hidden;background:#1a1918;border:1px solid #2a2826;flex-shrink:0}
+.pos-field-wrap{position:relative;width:100%;max-width:max(180px, calc((100dvh - var(--ad-h,0px) - 430px) * 1.36));aspect-ratio:300/220;margin:0 auto 10px;border-radius:12px;overflow:hidden;background:#1a1918;border:1px solid #2a2826;flex-shrink:0}
 .pos-field-wrap svg{display:block;width:100%;height:100%}
 .pos-btn-overlay{position:absolute;inset:0;pointer-events:none}
 .pos-btn{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;
