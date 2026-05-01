@@ -24,8 +24,8 @@ body.with-admob-banner{--ad-h:60px}
 @media (min-width:600px){body.with-admob-banner{--ad-h:90px}}
 @media (min-width:900px){body.with-admob-banner{--ad-h:100px}}
 .app{height:calc(100dvh - var(--ad-h) - 30px);display:flex;flex-direction:column;max-width:480px;margin:0 auto;background:#1a1918;padding-bottom:34px}
-@media (min-width:600px) and (orientation:portrait){.app{max-width:600px}}
-@media (min-width:900px) and (orientation:portrait){.app{max-width:720px}}
+@media (min-width:600px){.app{max-width:600px}}
+@media (min-width:900px){.app{max-width:720px}}
 .screen{display:none;flex-direction:column;height:100%;overflow:hidden}
 .screen.active{display:flex}
 
@@ -240,26 +240,6 @@ body.with-admob-banner{--ad-h:60px}
 .app-footer a{color:#888780;font-size:11px;margin:0 10px;text-decoration:none}
 .app-footer a:hover{color:#f0efe8}
 body.with-admob-banner .app-footer{bottom:var(--ad-h)}
-/* 7〜10インチタブレット等の横向き：選択画面を2カラム化してスクロールなしで全要素を表示 */
-@media (orientation:landscape) and (max-height:820px) and (min-width:900px){
-  .app{max-width:880px}
-  .sel-header{padding:10px 16px 4px}
-  .sel-title{font-size:18px}
-  #s-select .sel-body{
-    display:grid;
-    grid-template-columns:minmax(280px,360px) 1fr;
-    column-gap:18px;
-    align-content:start;
-    padding:4px 16px 12px;
-  }
-  #s-select .sel-body > *:nth-child(-n+2){grid-column:1}
-  #s-select .sel-body > *:nth-child(n+3){grid-column:2}
-  #s-select .pos-field-wrap{max-width:100%;margin:0 auto 4px}
-  #s-select .sel-section-lbl{padding:2px 0 4px}
-  #s-select .qcount-grid,#s-select .diff-grid{margin-bottom:8px}
-  #s-select .qcount-opt{padding:10px 6px;font-size:14px}
-  #s-select .diff-opt{padding:8px 4px}
-}
 </style>
 <script type="application/ld+json">
 {
