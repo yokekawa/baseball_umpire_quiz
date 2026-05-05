@@ -501,7 +501,7 @@ body.with-admob-banner .app-footer{bottom:var(--ad-h)}
     <div class="howto-step">
       <div class="howto-step-num">STEP 5</div>
       <div class="howto-step-title">解説を確認する</div>
-      <div class="howto-step-desc">回答後に正解の動き（緑の矢印）と、ハンドブック第5版に基づくワンポイント解説が表示されます。</div>
+      <div class="howto-step-desc">回答後に正解の動き（緑の矢印）と、ワンポイント解説が表示されます。</div>
       <div class="howto-mock">
         <div class="howto-mock-label">画面イメージ（結果画面）</div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
@@ -738,7 +738,7 @@ function getUmpPos(position, runners){
   if(position==='一塁審') return P.out1;
   if(position==='三塁審') return P.out3;
   if(position==='二塁審'){
-    // ハンドブック取り決め事項1:
+    // 二塁審のポジション切り替え:
     // 無走者 → 2塁ベース後方（外野寄り）= u2out
     // 走者3塁のみ → 二塁にランナー無しのため外側ポジション = u2out
     //   （タッグアップは三塁審が確認、二塁審は外野打球を追う責任あり）
