@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://baseball-umpire-quiz.vercel.app/sitemap.xml
