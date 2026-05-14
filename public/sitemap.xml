@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://baseball-umpire-quiz.vercel.app/quiz</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://baseball-umpire-quiz.vercel.app/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
