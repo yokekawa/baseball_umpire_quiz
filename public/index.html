@@ -10,12 +10,12 @@
 <meta property="og:title" content="審判メカニクスクイズ｜4人制審判の動きを学ぶ無料アプリ">
 <meta property="og:description" content="少年野球のお父さん審判向け学習アプリ。球審・一塁審・二塁審・三塁審のメカニクスをクイズ形式で練習できます。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://baseball-umpire-quiz.vercel.app/quiz">
+<meta property="og:url" content="https://kway-works.com/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="審判メカニクスクイズ">
 <meta name="twitter:description" content="お父さん審判向け！4人制審判の動きをクイズで学べる無料アプリ">
 <!-- デプロイ後に実際のURLに変更してください -->
-<link rel="canonical" href="https://baseball-umpire-quiz.vercel.app/quiz">
+<link rel="canonical" href="https://kway-works.com/">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#1a1918;color:#f0efe8}
@@ -273,7 +273,7 @@ body.with-admob-banner .app-footer{bottom:var(--ad-h)}
     "@type": "Audience",
     "audienceType": "少年野球 お父さん審判"
   },
-  "url": "https://baseball-umpire-quiz.vercel.app/",
+  "url": "https://kway-works.com/",
   "keywords": "少年野球,審判,メカニクス,お父さん審判,4人制,球審,塁審,ポジショニング,クイズ"
 }
 </script>
@@ -297,7 +297,6 @@ body.with-admob-banner .app-footer{bottom:var(--ad-h)}
   </ul>
   <h2>解説記事</h2>
   <ul>
-    <li><a href="/">審判メカニクス学習サイト ホーム</a></li>
     <li><a href="/mechanics.html">4人制審判のメカニクス基礎知識</a></li>
     <li><a href="/starting-guide.html">お父さん審判デビューガイド</a></li>
     <li><a href="/runner-situations.html">走者状況別ポジショニング詳細</a></li>
@@ -679,7 +678,6 @@ body.with-admob-banner .app-footer{bottom:var(--ad-h)}
 
 </div>
 <div class="app-footer">
-  <a href="/">ホーム</a>
   <a href="/about.html">このアプリ</a>
   <a href="/mechanics.html">基礎</a>
   <a href="/starting-guide.html">デビュー</a>
@@ -1506,17 +1504,17 @@ function getShareText(){
 #少年野球 #審判 #メカニクス`;
 }
 function shareX(){
-  const url=encodeURIComponent("https://baseball-umpire-quiz.vercel.app/");
+  const url=encodeURIComponent("https://kway-works.com/");
   const txt=encodeURIComponent(getShareText());
   window.open(`https://x.com/intent/post?text=${txt}&url=${url}`,'_blank');
 }
 function shareLine(){
-  const url=encodeURIComponent('https://baseball-umpire-quiz.vercel.app/');
+  const url=encodeURIComponent('https://kway-works.com/');
   const txt=encodeURIComponent(getShareText());
   window.open('https://line.me/R/msg/text/?'+txt+'%0A'+url,'_blank');
 }
 function shareCopy(){
-  const txt=getShareText()+'\nhttps://baseball-umpire-quiz.vercel.app/';
+  const txt=getShareText()+'\nhttps://kway-works.com/';
   navigator.clipboard.writeText(txt).then(()=>alert('コピーしました！')).catch(()=>{
     const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('コピーしました！');
   });
